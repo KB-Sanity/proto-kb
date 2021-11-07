@@ -3,5 +3,5 @@ import defaultConfig from './vite.config';
 
 export default defineConfig({
   ...defaultConfig,
-  base: 'ZMKey',
+  base: 'proto-kb',
 });
