@@ -30,10 +30,35 @@ export interface ParsedKLEKey {
     size: { width: number; height: number };
     pivot: { x: number; y: number };
     angle: number;
+    legends: {
+      topLeft?: string;
+      top?: string;
+      topRight?: string;
+      left?: string;
+      center?: string;
+      right?: string;
+      bottomLeft?: string;
+      bottom?: string;
+      bottomRight?: string;
+      frontLeft?: string;
+      front?: string;
+      frontRight?: string;
+    }
 }
 
+const KLEAlignMappings = [
+  ['topLeft', 'bottomLeft', 'topRight', 'bottomRight', 'frontLeft', 'frontRight', 'left', 'right', 'top', 'center', 'bottom', 'front'],  // 0 = no centering
+  ['top', 'bottom', null, null, 'frontLeft', 'frontRight', 'center', null, null, null, null, 'front'],  // 1 = center x
+  ['left', null, 'right', null, 'frontLeft', 'frontRight', null, null, 'center', null, null, 'front'],  // 2 = center y
+  ['center', null, null, null, 'frontLeft', 'frontRight', null, null, null, null, null, 'front'],  // 3 = center x & y
+  ['topLeft', 'bottomLeft', 'topRight', 'bottomRight', 'front', null, 'left', 'right', 'top', 'center', 'bottom', null],  // 4 = center front (default)
+  ['top', 'bottom', null, null, 'front', null, 'center', null, null, null, null, null],  // 5 = center front & x
+  ['left', null, 'right', null, 'front', null, null, null, 'center', null, null, null],  // 6 = center front & y
+  ['center', null, null, null, 'front', null, null, null, null, null, null, null],  // 7 = center front & x & y
+];
+
 export function* parseData(rows: KLERows): Generator<ParsedKLEKey, any, ParsedKLEKey> {
-    const keyState: KLEKey = { x: 0, y: 0, rx: 0, ry: 0, h: 1, w: 1 };
+    const keyState: KLEKey = { x: 0, y: 0, rx: 0, ry: 0, h: 1, w: 1, a: 4 };
       const cluster = { x: 0, y: 0 };
       for (const row of rows) {
         if (!Array.isArray(row)) {
@@ -82,8 +107,20 @@ export function* parseData(rows: KLERows): Generator<ParsedKLEKey, any, ParsedKL
             };
 
             const angle = keyState.r ?? 0;
+            const legends: Record<string, string> = {};
+            if (key.length) {
+              const flatLegends = key.split('\n');
+              const alignMap = KLEAlignMappings[keyState.a];
+              for (let i = 0; i < flatLegends.length; i++) {
+                const legend = flatLegends[i];
+                const legendPlacement = alignMap[i];
+                if (legend.length && legendPlacement) {
+                  legends[legendPlacement] = legend;
+                }
+              }
+            }
 
-            yield { position, size, pivot, angle };
+            yield { position, size, pivot, angle, legends };
             
             keyState.x += size.width;
             keyState.w = keyState.h = 1;

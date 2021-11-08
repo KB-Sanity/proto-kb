@@ -1,7 +1,22 @@
 import { nanoid } from 'nanoid';
-import { Container, Graphics } from 'pixi.js';
+import { Container, Graphics, Text } from 'pixi.js';
 import { AppSettings, KeyCapSize, Point2D, ProtoKBApplication } from '../interfaces';
 import { layoutActions } from '../store';
+
+export interface KeyCapLegends {
+  topLeft?: string;
+  top?: string;
+  topRight?: string;
+  left?: string;
+  center?: string;
+  right?: string;
+  bottomLeft?: string;
+  bottom?: string;
+  bottomRight?: string;
+  frontLeft?: string;
+  front?: string;
+  frontRight?: string;
+}
 
 export interface KeyCapOptions {
   app: ProtoKBApplication;
@@ -12,12 +27,14 @@ export interface KeyCapOptions {
   secondarySize?: KeyCapSize;
   pivot?: Point2D;
   angle?: number;
+  legends?: KeyCapLegends;
 }
 
 export class KeyCap {
   public id = nanoid();
   private _graphics = new Graphics();
   private _pivotGraphics = new Graphics();
+  private _legendsGraphics: Record<string, any> = {}; // TODO: types for Text class
   private _subscriptions: ((() => void) | undefined)[] = [];
 
   private _app: ProtoKBApplication;
@@ -28,6 +45,7 @@ export class KeyCap {
   private _secondarySize?: KeyCapSize;
   private _pivot?: Point2D;
   private _angle: number;
+  private _legends: KeyCapLegends;
 
   public get position(): Point2D {
     return { ...this._position };
@@ -54,7 +72,7 @@ export class KeyCap {
   }
 
   // customData - for development
-  constructor(options: KeyCapOptions, public customData?: any) {
+  constructor(options: KeyCapOptions) {
     this._app = options.app;
     this._appSettings = options.appSettings;
     this._position = options.position;
@@ -63,6 +81,7 @@ export class KeyCap {
     this._secondarySize = options.secondarySize;
     this._pivot = options.pivot;
     this._angle = options.angle;
+    this._legends = options.legends;
 
     this._graphics.interactive = true;
     this._graphics.cursor = 'pointer';
@@ -85,9 +104,7 @@ export class KeyCap {
   private _onClick(event: PointerEvent): void {
     layoutActions.selectKey(this.id);
     // for development
-    if (this.customData) {
-      console.log(this.customData, this);
-    }
+    console.log(this);
     event.stopPropagation();
   }
 
@@ -134,6 +151,17 @@ export class KeyCap {
       cornerRadius * unitSize * 0.8,
     );
     this._graphics.endFill();
+
+    this._drawLegends();
+  }
+
+  private _drawLegends(): void {
+    for (let [key, value] of Object.entries(this._legends)) {
+      if (value?.length) {
+        this._legendsGraphics[key] = new Text(value);
+        this._graphics.addChild(this._legendsGraphics[key]);
+      }
+    }
   }
 
   public destroy(): void {

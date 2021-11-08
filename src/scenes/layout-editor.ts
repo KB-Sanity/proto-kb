@@ -98,7 +98,15 @@ export class LayoutEditor {
 
       let keyCap: KeyCap;
       for (const key of parseData(rows)) {
-        keyCap = new KeyCap({ app: this._app, appSettings: this._appSettings, position: key.position, size: key.size, pivot: key.pivot, angle: key.angle });
+        keyCap = new KeyCap({
+          app: this._app,
+          appSettings: this._appSettings,
+          position: key.position,
+          size: key.size,
+          pivot: key.pivot,
+          angle: key.angle,
+          legends: key.legends,
+        });
 
         this._keyCaps.push(keyCap.appendTo(this._container));
       }
