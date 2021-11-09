@@ -1,0 +1,19 @@
+{
+  "meta": {
+    "name": "ANSI 60%",
+    "author": "Anonymous",
+    "background": {
+      "image": "https://example.com/example.png",
+      "color": "#ffffff"
+    },
+    "radii": "30px 30px 50% 50%",
+    "switchMount": "mx",
+    "switchBrand": "gateron",
+    "switchType": "ks-3-y"
+  },
+  "styles": {
+    "default": {},
+    "modifiers": {}
+  },
+  "layout": {}
+}
