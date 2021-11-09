@@ -18,13 +18,13 @@ This project was inspired by [keyboard-layout-editor](https://github.com/ijprest
 ## Getting Started for Developers
 
 **Required tools:**
-* nvm: https://github.com/nvm-sh/nvm
+* [Node v14](https://nodejs.org/en/download/package-manager/)
+* [Yarn](https://yarnpkg.com/)
 
 **Install prerequisites and dependencies:**
 ```bash
-nvm install 14 && nvm use 14
 npm install -g yarn
-yarn install
+yarn
 ```
 
 **Run on the local server:**
