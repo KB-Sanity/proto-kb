@@ -10,7 +10,7 @@ export default defineConfig({
   },
   plugins: [
     posthtmlPlugin({
-      plugins: [include({ encoding: 'utf8', root: './src' }), PostHTMLFeather]
+      plugins: [include({ encoding: 'utf8', root: './src' }), PostHTMLFeather],
     }),
   ],
 });

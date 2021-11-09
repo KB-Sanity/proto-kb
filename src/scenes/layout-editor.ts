@@ -38,7 +38,7 @@ export class LayoutEditor {
   private _initSubscriptions(): void {
     document.getElementById('layout-editor__add-key')?.addEventListener('click', this._handleAddButtonClick);
     document.getElementById('layout-editor__load-kle')?.addEventListener('click', this._handleLoadKLEClick);
-    this._kleFileInput.addEventListener('change', this._handleKLEFileChange)
+    this._kleFileInput.addEventListener('change', this._handleKLEFileChange);
 
     this._container.on('pointerdown', this._handleContainerClick);
 
@@ -47,7 +47,7 @@ export class LayoutEditor {
       .on('pointerdown', this._handleDragStart)
       .on('pointerup', this._handleDragEnd)
       .on('pointerupoutside', this._handleDragEnd)
-      .on('pointermove', this._handleDragMove)
+      .on('pointermove', this._handleDragMove);
   }
 
   private _handleAddButtonClick(): void {
@@ -66,7 +66,7 @@ export class LayoutEditor {
         app: this._app,
         appSettings: this._appSettings,
         position: newPosition,
-        size: { width: 1, height: 1 }
+        size: { width: 1, height: 1 },
       }).appendTo(this._container),
     );
   }
