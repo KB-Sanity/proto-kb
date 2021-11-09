@@ -90,6 +90,8 @@ export function* parseData(rows: KLERows): Generator<ParsedKLEKey, any, ParsedKL
 
             if ('w2' in key && !('w' in key)) keyState.w = key.w2;
             else if ('w2' in key) keyState.w2 = key.w2;
+
+            if ('a' in key) keyState.a = key.a;
           } else {
             const position = {
               x: keyState.x,
