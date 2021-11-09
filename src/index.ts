@@ -27,13 +27,14 @@ const appSettings: AppSettings = {
 
 if (appContainer) {
   // For development
-  const nodes = document.getElementsByTagName("canvas");
+  const nodes = document.getElementsByTagName('canvas');
 
   for (const node of Array.from(nodes)) {
-      node.parentNode?.removeChild(node);
+    node.parentNode?.removeChild(node);
   }
 }
 appContainer?.appendChild(app.view);
-(window as any).__PIXI_INSPECTOR_GLOBAL_HOOK__ &&  (window as any).__PIXI_INSPECTOR_GLOBAL_HOOK__.register({ PIXI: PIXI });
+(window as any).__PIXI_INSPECTOR_GLOBAL_HOOK__ &&
+  (window as any).__PIXI_INSPECTOR_GLOBAL_HOOK__.register({ PIXI: PIXI });
 
 new LayoutEditor(app, appSettings);

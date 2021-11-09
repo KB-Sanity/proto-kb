@@ -133,7 +133,7 @@ export class KeyCap {
 
     this._graphics.pivot.set(
       (this._pivot.x - this._position.x) * unitSize,
-      (this._pivot.y - this._position.y) * unitSize
+      (this._pivot.y - this._position.y) * unitSize,
     );
 
     this._graphics.position.x = this._position.x * unitSize + this._graphics.pivot.x;
@@ -149,8 +149,8 @@ export class KeyCap {
 
     this._pivotGraphics.beginFill(0xff0000);
     this._pivotGraphics.position.set(this._pivot.x * unitSize, this._pivot.y * unitSize);
-    this._pivotGraphics.drawCircle(0, 0, 5)
-    this._pivotGraphics.endFill()
+    this._pivotGraphics.drawCircle(0, 0, 5);
+    this._pivotGraphics.endFill();
     this._pivotGraphics.visible = isSelected;
 
     this._graphics.angle = this._angle;
@@ -206,11 +206,17 @@ export class KeyCap {
             legendPivot = { x: 0, y: text.height / 2 };
             break;
           case 'center':
-            legendPosition = { x: legendsSurfaceX + legendsSurfaceWidth / 2, y: legendsSurfaceY + legendsSurfaceHeight / 2 };
+            legendPosition = {
+              x: legendsSurfaceX + legendsSurfaceWidth / 2,
+              y: legendsSurfaceY + legendsSurfaceHeight / 2,
+            };
             legendPivot = { x: text.width / 2, y: text.height / 2 };
             break;
           case 'right':
-            legendPosition = { x: legendsSurfaceX + legendsSurfaceWidth, y: legendsSurfaceY + legendsSurfaceHeight / 2 };
+            legendPosition = {
+              x: legendsSurfaceX + legendsSurfaceWidth,
+              y: legendsSurfaceY + legendsSurfaceHeight / 2,
+            };
             legendPivot = { x: text.width, y: text.height / 2 };
             break;
           case 'bottomLeft':
@@ -218,7 +224,10 @@ export class KeyCap {
             legendPivot = { x: 0, y: text.height };
             break;
           case 'bottom':
-            legendPosition = { x: legendsSurfaceX + legendsSurfaceWidth / 2, y: legendsSurfaceY + legendsSurfaceHeight };
+            legendPosition = {
+              x: legendsSurfaceX + legendsSurfaceWidth / 2,
+              y: legendsSurfaceY + legendsSurfaceHeight,
+            };
             legendPivot = { x: text.width / 2, y: text.height };
             break;
           case 'bottomRight':
