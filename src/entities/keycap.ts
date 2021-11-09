@@ -2,6 +2,7 @@ import { nanoid } from 'nanoid';
 import { Container, Graphics, Text } from 'pixi.js';
 import { AppSettings, KeyCapSize, Point2D, ProtoKBApplication } from '../interfaces';
 import { layoutActions } from '../store';
+import { lighten, toHex } from 'color2k';
 
 export interface KeyCapLegends {
   topLeft?: string;
@@ -28,6 +29,7 @@ export interface KeyCapOptions {
   pivot?: Point2D;
   angle?: number;
   legends?: KeyCapLegends;
+  color?: number;
 }
 
 export class KeyCap {
@@ -45,6 +47,7 @@ export class KeyCap {
   private _pivot?: Point2D;
   private _angle: number;
   private _legends: KeyCapLegends;
+  private _keycapColor: number;
 
   public get position(): Point2D {
     return { ...this._position };
@@ -102,6 +105,7 @@ export class KeyCap {
     this._pivot = options.pivot;
     this._angle = options.angle;
     this._legends = options.legends;
+    this._keycapColor = options.color || 0xCCCCCC;
 
     this._graphics.interactive = true;
     this._graphics.cursor = 'pointer';
@@ -130,6 +134,7 @@ export class KeyCap {
     const unitSize = this._appSettings.unitSize;
     const cornerRadius = this._appSettings.keyCapCornerRadius;
     const isSelected = this._app.state?.layout.value?.selectedKey === this.id;
+    const surfaceColor = parseInt(toHex(lighten('#' + this._keycapColor.toString(16), 0.17)).replace('#', ''), 16);
 
     this._graphics.pivot.set(
       (this._pivot.x - this._position.x) * unitSize,
@@ -156,12 +161,12 @@ export class KeyCap {
     this._graphics.angle = this._angle;
 
     this._graphics.lineStyle({ width: 1, color: isSelected ? 0xe54803 : 0x000000 });
-    this._graphics.beginFill(0xcccccc);
+    this._graphics.beginFill(this._keycapColor);
     this._graphics.drawRoundedRect(0, 0, width, height, cornerRadius * unitSize);
     this._graphics.endFill();
 
     this._graphics.lineStyle({ width: 1, color: 0xb7b7b7 });
-    this._graphics.beginFill(0xfcfcfc);
+    this._graphics.beginFill(surfaceColor);
     this._graphics.drawRoundedRect(
       this.surfaceX,
       this.surfaceY,
