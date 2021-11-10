@@ -1391,10 +1391,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"color2k@npm:^1.2.4":
-  version: 1.2.4
-  resolution: "color2k@npm:1.2.4"
-  checksum: 9cde39430d9e4b7c03f1e572d9be76e17be3ce0c8cc1acd276eadc65d13a0e80f484220e3428cd53272d105369cae652b141ac03149e5738000b79a7fae1ba96
+"colord@npm:^2.9.1":
+  version: 2.9.1
+  resolution: "colord@npm:2.9.1"
+  checksum: c47ff86c6ffc28ac55812c64fe35563809ccf860687506e4127137dcd27595b49610b85dcf3551b39a1c19af6a1a41ed41a42043ef6e795f787f29e4e49b4014
   languageName: node
   linkType: hard
 
@@ -3800,7 +3800,7 @@ __metadata:
     "@types/offscreencanvas": ^2019.6.4
     "@typescript-eslint/eslint-plugin": ^5.0.0
     "@typescript-eslint/parser": ^5.0.0
-    color2k: ^1.2.4
+    colord: ^2.9.1
     eslint: ^8.0.1
     eslint-config-prettier: ^8.3.0
     eslint-plugin-prettier: ^4.0.0

@@ -106,6 +106,7 @@ export class LayoutEditor {
           pivot: key.pivot,
           angle: key.angle,
           legends: key.legends,
+          color: key.color,
         });
 
         this._keyCaps.push(keyCap.appendTo(this._container));
