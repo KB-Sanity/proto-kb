@@ -1,21 +1,28 @@
 import { nanoid } from 'nanoid';
-import { Container, Graphics, Text } from 'pixi.js';
+import { Container, Graphics, Text, utils } from 'pixi.js';
 import { AppSettings, KeyCapSize, Point2D, ProtoKBApplication } from '../interfaces';
 import { layoutActions } from '../store';
+import { labLighter } from '../lib/colorTools';
+
+export interface KeyCapLegend {
+  text: string;
+  color?: string;
+  size?: number;
+}
 
 export interface KeyCapLegends {
-  topLeft?: string;
-  top?: string;
-  topRight?: string;
-  left?: string;
-  center?: string;
-  right?: string;
-  bottomLeft?: string;
-  bottom?: string;
-  bottomRight?: string;
-  frontLeft?: string;
-  front?: string;
-  frontRight?: string;
+  topLeft?: KeyCapLegend;
+  top?: KeyCapLegend;
+  topRight?: KeyCapLegend;
+  left?: KeyCapLegend;
+  center?: KeyCapLegend;
+  right?: KeyCapLegend;
+  bottomLeft?: KeyCapLegend;
+  bottom?: KeyCapLegend;
+  bottomRight?: KeyCapLegend;
+  frontLeft?: KeyCapLegend;
+  front?: KeyCapLegend;
+  frontRight?: KeyCapLegend;
 }
 
 export interface KeyCapOptions {
@@ -28,12 +35,12 @@ export interface KeyCapOptions {
   pivot?: Point2D;
   angle?: number;
   legends?: KeyCapLegends;
+  color?: string;
 }
 
 export class KeyCap {
   public id = nanoid();
   private _graphics = new Graphics();
-  private _pivotGraphics = new Graphics();
   private _subscriptions: ((() => void) | undefined)[] = [];
 
   private _app: ProtoKBApplication;
@@ -45,6 +52,7 @@ export class KeyCap {
   private _pivot?: Point2D;
   private _angle: number;
   private _legends: KeyCapLegends;
+  private _keycapColor: string;
 
   public get position(): Point2D {
     return { ...this._position };
@@ -102,6 +110,7 @@ export class KeyCap {
     this._pivot = options.pivot;
     this._angle = options.angle;
     this._legends = options.legends;
+    this._keycapColor = options.color || '#cccccc';
 
     this._graphics.interactive = true;
     this._graphics.cursor = 'pointer';
@@ -130,6 +139,8 @@ export class KeyCap {
     const unitSize = this._appSettings.unitSize;
     const cornerRadius = this._appSettings.keyCapCornerRadius;
     const isSelected = this._app.state?.layout.value?.selectedKey === this.id;
+    const surfaceColor = labLighter(this._keycapColor, 1.2);
+    const surfaceBorderColor = labLighter(this._keycapColor, 0.9);
 
     this._graphics.pivot.set(
       (this._pivot.x - this._position.x) * unitSize,
@@ -141,27 +152,18 @@ export class KeyCap {
     const width = this._size.width * unitSize - 1; // 1 - is border width
     const height = this._size.height * unitSize - 1; // 1 - is border width
 
-    this._pivotGraphics.clear();
     this._graphics.clear();
     this._graphics.removeChildren();
-
-    this._pivotGraphics.zIndex = this._graphics.zIndex = isSelected ? 100 : 1;
-
-    this._pivotGraphics.beginFill(0xff0000);
-    this._pivotGraphics.position.set(this._pivot.x * unitSize, this._pivot.y * unitSize);
-    this._pivotGraphics.drawCircle(0, 0, 5);
-    this._pivotGraphics.endFill();
-    this._pivotGraphics.visible = isSelected;
 
     this._graphics.angle = this._angle;
 
     this._graphics.lineStyle({ width: 1, color: isSelected ? 0xe54803 : 0x000000 });
-    this._graphics.beginFill(0xcccccc);
+    this._graphics.beginFill(utils.string2hex(this._keycapColor));
     this._graphics.drawRoundedRect(0, 0, width, height, cornerRadius * unitSize);
     this._graphics.endFill();
 
-    this._graphics.lineStyle({ width: 1, color: 0xb7b7b7 });
-    this._graphics.beginFill(0xfcfcfc);
+    this._graphics.lineStyle({ width: 1, color: utils.string2hex(surfaceBorderColor) });
+    this._graphics.beginFill(utils.string2hex(surfaceColor));
     this._graphics.drawRoundedRect(
       this.surfaceX,
       this.surfaceY,
@@ -183,9 +185,9 @@ export class KeyCap {
     const legendsSurfaceX = this.surfaceX + padding;
     const legendsSurfaceY = this.surfaceY + padding;
 
-    for (let [key, value] of Object.entries(this._legends)) {
-      if (value?.length) {
-        const text = new Text(value, { fontSize: legendsSurfaceHeight / 3 });
+    for (const [key, value] of Object.entries(this._legends) as [string, KeyCapLegend][]) {
+      if (value?.text.length) {
+        const text = new Text(value.text, { fontSize: legendsSurfaceHeight / 3, fill: value.color });
         let legendPosition: Point2D;
         let legendPivot: Point2D;
         switch (key) {
@@ -271,7 +273,6 @@ export class KeyCap {
 
   public appendTo(container: Container): KeyCap {
     container.addChild(this._graphics);
-    container.addChild(this._pivotGraphics);
     return this;
   }
 }

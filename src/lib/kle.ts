@@ -15,14 +15,21 @@ export interface KLEKey {
   h2?: number; // height of the key, in keyboard units
   w2?: number; // width of the key, in keyboard units
 
-  t?: string; // legend text colors separated by \n
-
   rx?: number; // x position of center of rotation for the key
   ry?: number; // y position of center of rotation for the key
   r?: number; // specifies the angle the key is rotated (about the center of rotation)
 
   n?: boolean; // homing bar
   a?: number; // legends align
+
+  c?: string; // keycap background color
+  t?: string; // legend text colors separated by \n
+}
+
+export interface ParsedKLELegend {
+  text: string;
+  color?: string;
+  size?: number;
 }
 
 export interface ParsedKLEKey {
@@ -31,19 +38,20 @@ export interface ParsedKLEKey {
   pivot: { x: number; y: number };
   angle: number;
   legends: {
-    topLeft?: string;
-    top?: string;
-    topRight?: string;
-    left?: string;
-    center?: string;
-    right?: string;
-    bottomLeft?: string;
-    bottom?: string;
-    bottomRight?: string;
-    frontLeft?: string;
-    front?: string;
-    frontRight?: string;
+    topLeft?: ParsedKLELegend;
+    top?: ParsedKLELegend;
+    topRight?: ParsedKLELegend;
+    left?: ParsedKLELegend;
+    center?: ParsedKLELegend;
+    right?: ParsedKLELegend;
+    bottomLeft?: ParsedKLELegend;
+    bottom?: ParsedKLELegend;
+    bottomRight?: ParsedKLELegend;
+    frontLeft?: ParsedKLELegend;
+    front?: ParsedKLELegend;
+    frontRight?: ParsedKLELegend;
   };
+  color: string;
 }
 
 const KLEAlignMappings = [
@@ -71,7 +79,7 @@ const KLEAlignMappings = [
 ];
 
 export function* parseData(rows: KLERows): Generator<ParsedKLEKey, any, ParsedKLEKey> {
-  const keyState: KLEKey = { x: 0, y: 0, rx: 0, ry: 0, h: 1, w: 1, a: 4 };
+  const keyState: KLEKey = { x: 0, y: 0, rx: 0, ry: 0, h: 1, w: 1, a: 4, c: '#cccccc', t: '#000000' };
   const cluster = { x: 0, y: 0 };
   for (const row of rows) {
     if (!Array.isArray(row)) {
@@ -105,6 +113,8 @@ export function* parseData(rows: KLERows): Generator<ParsedKLEKey, any, ParsedKL
         else if ('w2' in key) keyState.w2 = key.w2;
 
         if ('a' in key) keyState.a = key.a;
+        if ('c' in key) keyState.c = key.c;
+        if ('t' in key) keyState.t = key.t;
       } else {
         const position = {
           x: keyState.x,
@@ -122,20 +132,24 @@ export function* parseData(rows: KLERows): Generator<ParsedKLEKey, any, ParsedKL
         };
 
         const angle = keyState.r ?? 0;
-        const legends: Record<string, string> = {};
+        const legends: Record<string, ParsedKLELegend> = {};
         if (key.length) {
           const flatLegends = key.split('\n');
+          const flatLegendsColors = keyState.t.split('\n');
           const alignMap = KLEAlignMappings[keyState.a];
           for (let i = 0; i < flatLegends.length; i++) {
             const legend = flatLegends[i];
             const legendPlacement = alignMap[i];
             if (legend.length && legendPlacement) {
-              legends[legendPlacement] = legend;
+              legends[legendPlacement] = {
+                text: legend,
+                color: flatLegendsColors[i] || '#000000',
+              };
             }
           }
         }
 
-        yield { position, size, pivot, angle, legends };
+        yield { position, size, pivot, angle, legends, color: keyState.c };
 
         keyState.x += size.width;
         keyState.w = keyState.h = 1;
