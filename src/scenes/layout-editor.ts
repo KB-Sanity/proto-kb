@@ -1,25 +1,26 @@
-import { Rectangle, Container, InteractionEvent, Point } from 'pixi.js';
-import { KeyCap } from '../entities/keycap';
+import { Rectangle, InteractionEvent, Point } from 'pixi.js';
+import { Keyboard } from '../entities/keyboard';
 import { AppSettings, Point2D, ProtoKBApplication } from '../interfaces';
-import { KLERows, parseData } from '../lib/kle';
+import { KLERows } from '../lib/kle';
 import { layoutActions } from '../store';
 
 export class LayoutEditor {
-  private _container = new Container();
   private _layoutOffset: Point2D = { x: 1, y: 1 };
-  private _keyCaps: KeyCap[] = [];
   private _kleFileInput: HTMLInputElement;
   private _fileReader = new FileReader();
+  private _keyboard: Keyboard;
 
   private _dragging = false;
   private _draggingData?: Point;
 
   constructor(private _app: ProtoKBApplication, private _appSettings: AppSettings) {
-    this._container.hitArea = new Rectangle(0, 0, _app.view.width, _app.view.height);
-    this._container.interactive = true;
-    this._container.sortableChildren = true;
+    const unitSize = this._appSettings.unitSize;
+    this._keyboard = new Keyboard(this._app, this._appSettings);
+    this._keyboard.container.position.set(this._layoutOffset.x * unitSize, this._layoutOffset.y * unitSize);
 
-    this._app.stage.addChild(this._container);
+    this._app.stage.addChild(this._keyboard.container);
+    this._app.stage.interactive = true;
+    this._app.stage.hitArea = new Rectangle(0, 0, _app.view.width, _app.view.height);
 
     this._kleFileInput = document.getElementById('layout-editor__load-kle-input') as HTMLInputElement;
 
@@ -40,10 +41,10 @@ export class LayoutEditor {
     document.getElementById('layout-editor__load-kle')?.addEventListener('click', this._handleLoadKLEClick);
     this._kleFileInput.addEventListener('change', this._handleKLEFileChange);
 
-    this._container.on('pointerdown', this._handleContainerClick);
+    this._app.stage.on('pointerdown', this._handleContainerClick);
 
     // drag container
-    this._container
+    this._app.stage
       .on('pointerdown', this._handleDragStart)
       .on('pointerup', this._handleDragEnd)
       .on('pointerupoutside', this._handleDragEnd)
@@ -51,24 +52,7 @@ export class LayoutEditor {
   }
 
   private _handleAddButtonClick(): void {
-    let newPosition: Point2D;
-    if (this._keyCaps.length) {
-      const lastKeycap = this._keyCaps[this._keyCaps.length - 1];
-      const newX = lastKeycap.position.x >= 15 ? this._layoutOffset.x : lastKeycap.position.x + lastKeycap.size.width;
-      const newY = lastKeycap.position.x >= 15 ? lastKeycap.position.y + lastKeycap.size.height : lastKeycap.position.y;
-      newPosition = { x: newX, y: newY };
-    } else {
-      newPosition = { ...this._layoutOffset };
-    }
-
-    this._keyCaps.push(
-      new KeyCap({
-        app: this._app,
-        appSettings: this._appSettings,
-        position: newPosition,
-        size: { width: 1, height: 1 },
-      }).appendTo(this._container),
-    );
+    this._keyboard.addKeyCap();
   }
 
   private _handleContainerClick(): void {
@@ -95,47 +79,30 @@ export class LayoutEditor {
     const reader = event.target as FileReader;
     if (reader.result) {
       const rows: KLERows = JSON.parse(reader.result as string);
-
-      let keyCap: KeyCap;
-      for (const key of parseData(rows)) {
-        keyCap = new KeyCap({
-          app: this._app,
-          appSettings: this._appSettings,
-          position: key.position,
-          size: key.size,
-          pivot: key.pivot,
-          angle: key.angle,
-          legends: key.legends,
-          color: key.color,
-        });
-
-        this._keyCaps.push(keyCap.appendTo(this._container));
-      }
+      this._keyboard.importKLEData(rows);
     }
   }
 
   private _handleDragStart(event: InteractionEvent): void {
-    this._draggingData = event.data.getLocalPosition(this._container.parent);
+    this._draggingData = event.data.getLocalPosition(this._app.stage);
     this._dragging = true;
   }
 
   private _handleDragEnd(): void {
     this._dragging = false;
     this._draggingData = undefined;
-    this._container.cursor = 'default';
+    this._app.stage.cursor = 'default';
   }
 
   private _handleDragMove(event: InteractionEvent): void {
     if (this._dragging && this._draggingData) {
-      this._container.cursor = 'grabbing';
-      const cursorPosition = event.data.getLocalPosition(this._container.parent);
+      this._app.stage.cursor = 'grabbing';
+      const cursorPosition = event.data.getLocalPosition(this._app.stage);
 
       const deltaX = cursorPosition.x - this._draggingData.x;
       const deltaY = cursorPosition.y - this._draggingData.y;
 
-      for (const keyCap of this._keyCaps) {
-        keyCap.moveBy({ x: deltaX, y: deltaY });
-      }
+      this._keyboard.moveBy({ x: deltaX, y: deltaY });
 
       this._draggingData = cursorPosition;
     }

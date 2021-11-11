@@ -38,6 +38,14 @@ export interface KeyCapOptions {
   color?: string;
 }
 
+const defaultOptions: Partial<KeyCapOptions> = {
+  pivot: { x: 0, y: 0 },
+  size: { width: 1, height: 1 },
+  legends: {},
+  color: '#cccccc',
+  angle: 0,
+};
+
 export class KeyCap {
   public id = nanoid();
   private _graphics = new Graphics();
@@ -100,7 +108,8 @@ export class KeyCap {
     return this.unitSize * 0.05;
   }
 
-  constructor(options: KeyCapOptions) {
+  constructor(opt: KeyCapOptions) {
+    const options = { ...defaultOptions, ...opt };
     this._app = options.app;
     this._appSettings = options.appSettings;
     this._position = options.position;
@@ -110,7 +119,7 @@ export class KeyCap {
     this._pivot = options.pivot;
     this._angle = options.angle;
     this._legends = options.legends;
-    this._keycapColor = options.color || '#cccccc';
+    this._keycapColor = options.color;
 
     this._graphics.interactive = true;
     this._graphics.cursor = 'pointer';
