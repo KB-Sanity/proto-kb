@@ -1,6 +1,18 @@
-export type KLERows = KLERow[];
+export type KLERows = (KLEMetadata | KLERow)[];
 
 export type KLERow = (KLEKey | string)[];
+
+export interface KLEMetadata {
+  author?: string;
+  backcolor?: string;
+  background?: { name: string; style: string } | null;
+  name?: string;
+  notes?: string;
+  radii?: string;
+  switchBrand?: string;
+  switchMount?: string;
+  switchType?: string;
+}
 
 export interface KLEKey {
   // Primary key rectangle
@@ -78,12 +90,12 @@ const KLEAlignMappings = [
   ['center', null, null, null, 'front', null, null, null, null, null, null, null], // 7 = center front & x & y
 ];
 
-export function* parseData(rows: KLERows): Generator<ParsedKLEKey, any, ParsedKLEKey> {
+export function* parseData(rows: KLERows): Generator<ParsedKLEKey | KLEMetadata, any, ParsedKLEKey | KLEMetadata> {
   const keyState: KLEKey = { x: 0, y: 0, rx: 0, ry: 0, h: 1, w: 1, a: 4, c: '#cccccc', t: '#000000' };
   const cluster = { x: 0, y: 0 };
   for (const row of rows) {
     if (!Array.isArray(row)) {
-      // TODO: Parse metadata
+      yield { ...row };
       continue;
     }
     for (const key of row) {
