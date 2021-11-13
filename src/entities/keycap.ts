@@ -110,6 +110,7 @@ export class KeyCap {
 
   constructor(opt: KeyCapOptions) {
     const options = { ...defaultOptions, ...opt };
+
     this._app = options.app;
     this._appSettings = options.appSettings;
     this._position = options.position;
@@ -158,6 +159,7 @@ export class KeyCap {
 
     this._graphics.position.x = this._position.x * unitSize + this._graphics.pivot.x;
     this._graphics.position.y = this._position.y * unitSize + this._graphics.pivot.y;
+
     const width = this._size.width * unitSize - 1; // 1 - is border width
     const height = this._size.height * unitSize - 1; // 1 - is border width
 
@@ -189,8 +191,10 @@ export class KeyCap {
   private _drawLegends(): void {
     const padding = this.unitSize * 0.05;
     const height = this._size.height * this.unitSize - 1; // 1 - is border width
+
     const legendsSurfaceWidth = this.surfaceWidth - padding * 2;
     const legendsSurfaceHeight = this.surfaceHeight - padding * 2;
+
     const legendsSurfaceX = this.surfaceX + padding;
     const legendsSurfaceY = this.surfaceY + padding;
 

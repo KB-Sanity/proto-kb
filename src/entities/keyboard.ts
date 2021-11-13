@@ -22,7 +22,6 @@ export class Keyboard {
 
   constructor(private _app: ProtoKBApplication, private _appSettings: AppSettings) {
     this.container.sortableChildren = true;
-    console.log(this);
   }
 
   public importKLEData(rows: KLERows): void {

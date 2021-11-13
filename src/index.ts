@@ -17,6 +17,7 @@ const app: ProtoKBApplication = new Application({
   width: appContainer?.clientWidth,
   height: appContainer?.clientHeight,
 });
+
 app.state = rootState;
 app.stage.sortableChildren = true;
 
@@ -35,6 +36,6 @@ if (appContainer) {
 }
 appContainer?.appendChild(app.view);
 (window as any).__PIXI_INSPECTOR_GLOBAL_HOOK__ &&
-  (window as any).__PIXI_INSPECTOR_GLOBAL_HOOK__.register({ PIXI: PIXI });
+  (window as any).__PIXI_INSPECTOR_GLOBAL_HOOK__.register({ PIXI });
 
 new LayoutEditor(app, appSettings);
