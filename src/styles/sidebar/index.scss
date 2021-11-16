@@ -1,0 +1,24 @@
+.sidebar {
+  display: flex;
+  width: 300px;
+  background: #eee;
+  border-left: 1px solid #ddd;
+
+  &__content {
+    flex: 1;
+  }
+
+  &__tabs {
+    background: #e2e2e2;
+  }
+
+  &__tab {
+    writing-mode: vertical-lr;
+    padding: 7px 2px;
+    border-bottom: 1px solid #bbb;
+
+    &._active {
+      background: #bbb;
+    }
+  }
+}

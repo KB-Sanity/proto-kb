@@ -4,7 +4,7 @@ import { Application } from 'pixi.js';
 import * as PIXI from 'pixi.js';
 import { AppSettings, ProtoKBApplication } from './interfaces';
 import { rootState } from './store';
-import { LayoutEditor } from './scenes/layout-editor';
+import { LayoutEditor } from './features/layout-editor';
 
 const appContainer = document.getElementById('pixi-container');
 

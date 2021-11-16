@@ -4,11 +4,20 @@ body {
   margin: 0 auto;
 }
 
+* {
+  font-family: 'Roboto', sans-serif;
+}
+
 .app-layout {
   width: 100vw;
   height: 100vh;
   display: flex;
   flex-direction: column;
+
+  &__editor-area {
+    display: flex;
+    flex: 1;
+  }
 }
 
 .menu-bar {
@@ -39,7 +48,6 @@ body {
 
 .pixi-container {
   height: 100%;
-  width: 100vw;
-  display: flex;
+  flex: 1;
   position: relative;
 }
