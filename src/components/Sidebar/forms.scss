@@ -1,0 +1,70 @@
+.form-row {
+  padding: 0px 5px 5px;
+  position: relative;
+
+  &.inline {
+    display: inline-flex;
+    align-items: center;
+
+    &.half {
+      display: inline-flex;
+    }
+
+    & > label {
+      margin-right: 5px;
+    }
+  }
+
+  &.half {
+    box-sizing: border-box;
+    width: 50%;
+    display: inline-block;
+  }
+
+  & > label {
+    font-size: 15px;
+    font-weight: 600;
+
+    & > span {
+      font-size: 13px;
+      color: #888;
+      display: block;
+      font-weight: 500;
+    }
+  }
+
+  input {
+    border: 2px solid #888;
+    outline: none;
+    transition: border-color .3s linear;
+    width: 100%;
+    line-height: 20px;
+    box-sizing: border-box;
+
+    &:focus, &:active {
+      border-color: #333;
+    }
+  }
+
+  & > input {
+    display: block;
+  }
+
+  select {
+    width: 100%;
+    outline: none;
+    border: 2px solid #888;
+    transition: border-color .3s linear;
+    line-height: 20px;
+    box-sizing: border-box;
+    height: 26px;
+
+    &:focus, &:active {
+      border-color: #333;
+    }
+  }
+
+  & > select {
+    display: block;
+  }
+}

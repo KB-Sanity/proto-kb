@@ -1,6 +1,3 @@
-import { Application } from 'pixi.js';
-import { RootState } from './store';
-
 export interface Point2D {
   x: number;
   y: number;
@@ -17,5 +14,3 @@ export interface AppSettings {
   /** Keycap corner radius in relative to unitSize */
   keyCapCornerRadius: number;
 }
-
-export type ProtoKBApplication = Application & { state?: RootState };

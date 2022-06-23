@@ -44,25 +44,27 @@ export interface ParsedKLELegend {
   size?: number;
 }
 
+export interface ParsedKLELegends {
+  topLeft?: ParsedKLELegend;
+  top?: ParsedKLELegend;
+  topRight?: ParsedKLELegend;
+  left?: ParsedKLELegend;
+  center?: ParsedKLELegend;
+  right?: ParsedKLELegend;
+  bottomLeft?: ParsedKLELegend;
+  bottom?: ParsedKLELegend;
+  bottomRight?: ParsedKLELegend;
+  frontLeft?: ParsedKLELegend;
+  front?: ParsedKLELegend;
+  frontRight?: ParsedKLELegend;
+}
+
 export interface ParsedKLEKey {
   position: { x: number; y: number };
   size: { width: number; height: number };
   pivot: { x: number; y: number };
   angle: number;
-  legends: {
-    topLeft?: ParsedKLELegend;
-    top?: ParsedKLELegend;
-    topRight?: ParsedKLELegend;
-    left?: ParsedKLELegend;
-    center?: ParsedKLELegend;
-    right?: ParsedKLELegend;
-    bottomLeft?: ParsedKLELegend;
-    bottom?: ParsedKLELegend;
-    bottomRight?: ParsedKLELegend;
-    frontLeft?: ParsedKLELegend;
-    front?: ParsedKLELegend;
-    frontRight?: ParsedKLELegend;
-  };
+  legends: ParsedKLELegends;
   color: string;
 }
 

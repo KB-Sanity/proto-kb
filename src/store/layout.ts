@@ -1,24 +1,17 @@
-import { createStore, update } from 'nanostores';
+import { map } from 'nanostores';
 
-export interface LayoutState {
+export interface LayoutStore {
   layout: Record<string, any>[]; // TODO
-  selectedKey?: string | null;
+  selectedKey: string | null;
 }
 
-const initialState: LayoutState = {
+export const layoutStore = map<LayoutStore>({
   layout: [],
-  selectedKey: null,
-};
-
-export const layoutState = createStore<LayoutState>(() => {
-  layoutState.set(initialState);
+  selectedKey: null
 });
 
 function selectKey(keyId: string | null): void {
-  update(layoutState, (state) => ({
-    ...state,
-    selectedKey: keyId,
-  }));
+  layoutStore.setKey('selectedKey', keyId);
 }
 
 export const layoutActions = {

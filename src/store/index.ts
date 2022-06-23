@@ -1,11 +1,11 @@
-import { WritableStore } from 'nanostores';
-import { LayoutState, layoutState } from './layout';
+import type { MapStore } from 'nanostores';
+import { layoutStore, type LayoutStore } from './layout';
 export { layoutActions } from './layout';
 
-export interface RootState {
-  layout: WritableStore<LayoutState>;
+export interface RootStore {
+  layout: MapStore<LayoutStore>;
 }
 
-export const rootState: RootState = {
-  layout: layoutState,
+export const rootState: RootStore = {
+  layout: layoutStore,
 };
