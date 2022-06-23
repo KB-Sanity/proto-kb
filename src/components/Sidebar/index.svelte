@@ -2,9 +2,6 @@
 
 <script lang="ts">
 import { tick } from "svelte";
-
-import App from "../../App.svelte";
-
 import { EVENT } from "../../entities/Events";
 import type { ProtoKBApplication } from "../../entities/ProtoKBApplication";
 import type { ProtoPlugin } from "../../ProtoPlugin";

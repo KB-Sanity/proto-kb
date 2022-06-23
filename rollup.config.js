@@ -7,8 +7,10 @@ import sveltePreprocess from 'svelte-preprocess';
 import typescript from '@rollup/plugin-typescript';
 import css from 'rollup-plugin-css-only';
 import nodePolyfills from 'rollup-plugin-node-polyfills';
+import { generateIndexHtml } from './plugins/rollup-generate-index-html';
 
 const production = !process.env.ROLLUP_WATCH;
+const baseUrl = process.env.BASE_URL || '/';
 
 function serve() {
 	let server;
@@ -66,6 +68,13 @@ export default {
 			sourceMap: !production,
 			inlineSources: !production
 		}),
+		generateIndexHtml({
+			args: {
+				baseUrl,
+			},
+			outputFile: 'public/index.html',
+			inputFile: 'src/index.dot',
+		}),
 
 		// In dev mode, call `npm run start` once
 		// the bundle has been generated
@@ -77,7 +86,7 @@ export default {
 
 		// If we're building for production (npm run build
 		// instead of npm run dev), minify
-		production && terser()
+		production && terser(),
 	],
 	watch: {
 		clearScreen: false
