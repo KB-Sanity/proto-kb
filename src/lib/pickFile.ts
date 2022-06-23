@@ -19,12 +19,12 @@ export function pickFile(accept?: string): Promise<File> {
     const teardown = () => {
       document.body.removeEventListener('focus', teardown, true);
       setTimeout(() => {
-          document.body.removeChild(el);
+        document.body.removeChild(el);
       }, 1000);
-    }
+    };
     document.body.addEventListener('focus', teardown, true);
 
     document.body.appendChild(el);
     el.click();
-  })
+  });
 }

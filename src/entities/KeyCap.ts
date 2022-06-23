@@ -1,10 +1,10 @@
-import {nanoid} from 'nanoid';
-import {Container, Graphics, Text, utils} from 'pixi.js';
-import type {KeyCapSize, Point2D} from '../interfaces';
-import {labLighter} from '../lib/colorTools';
-import {layoutActions} from '../store';
-import type {LayoutStore} from '../store/layout';
-import type {ProtoKBApplication} from './ProtoKBApplication';
+import { nanoid } from 'nanoid';
+import { Container, Graphics, Text, utils } from 'pixi.js';
+import type { KeyCapSize, Point2D } from '../interfaces';
+import { labLighter } from '../lib/colorTools';
+import { layoutActions } from '../store';
+import type { LayoutStore } from '../store/layout';
+import type { ProtoKBApplication } from './ProtoKBApplication';
 
 export interface KeyCapLegend {
   text: string;
@@ -53,11 +53,11 @@ export interface KeyCapAPI {
 }
 
 const defaultOptions: Partial<KeyCapOptions> = {
-  pivot: {x: 0, y: 0},
-  size: {width: 1, height: 1},
+  pivot: { x: 0, y: 0 },
+  size: { width: 1, height: 1 },
   legends: {},
   color: '#cccccc',
-  angle: 0
+  angle: 0,
 };
 
 export class KeyCap {
@@ -81,7 +81,7 @@ export class KeyCap {
   }
 
   public get position(): Point2D {
-    return {...this._position};
+    return { ...this._position };
   }
 
   public get x(): number {
@@ -93,7 +93,7 @@ export class KeyCap {
   }
 
   public get size(): KeyCapSize {
-    return {...this._size};
+    return { ...this._size };
   }
 
   public get width(): number {
@@ -133,7 +133,7 @@ export class KeyCap {
       }
     }
 
-    const options = {...defaultOptions, ...opt};
+    const options = { ...defaultOptions, ...opt };
     this._app = options.app;
     this._position = options.position;
     this._size = options.size;
@@ -177,19 +177,17 @@ export class KeyCap {
       // METHODS
       get moveTo() {
         return self._moveTo;
-      }
+      },
     };
   }
 
   private _moveTo = (position: Point2D): void => {
-    this._position = {...position};
+    this._position = { ...position };
     this._draw(this._app.store.layout.get());
   };
 
   private _initSubscriptions(): void {
-    this._subscriptions.push(
-      this._app.store.layout.listen(state => this._draw(state))
-    );
+    this._subscriptions.push(this._app.store.layout.listen((state) => this._draw(state)));
   }
 
   private _onClick(event: PointerEvent): void {
@@ -209,10 +207,8 @@ export class KeyCap {
       (this._pivot.y - this._position.y) * unitSize
     );
 
-    this._graphics.position.x =
-      this._position.x * unitSize + this._graphics.pivot.x;
-    this._graphics.position.y =
-      this._position.y * unitSize + this._graphics.pivot.y;
+    this._graphics.position.x = this._position.x * unitSize + this._graphics.pivot.x;
+    this._graphics.position.y = this._position.y * unitSize + this._graphics.pivot.y;
     const width = this._size.width * unitSize - 1; // 1 - is border width
     const height = this._size.height * unitSize - 1; // 1 - is border width
 
@@ -222,14 +218,14 @@ export class KeyCap {
 
     // Outline
     this._graphics
-      .lineStyle({width: 1, color: isSelected ? 0xe54803 : 0x000000})
+      .lineStyle({ width: 1, color: isSelected ? 0xe54803 : 0x000000 })
       .beginFill(utils.string2hex(this._keycapColor))
       .drawRoundedRect(0, 0, width, height, cornerRadius * unitSize)
       .endFill();
 
     // Surface
     this._graphics
-      .lineStyle({width: 1, color: utils.string2hex(surfaceBorderColor)})
+      .lineStyle({ width: 1, color: utils.string2hex(surfaceBorderColor) })
       .beginFill(utils.string2hex(surfaceColor))
       .drawRoundedRect(
         this.surfaceX,
@@ -252,98 +248,95 @@ export class KeyCap {
     const legendsSurfaceX = this.surfaceX + padding;
     const legendsSurfaceY = this.surfaceY + padding;
 
-    for (const [key, value] of Object.entries(this._legends) as [
-      string,
-      KeyCapLegend
-    ][]) {
+    for (const [key, value] of Object.entries(this._legends) as [string, KeyCapLegend][]) {
       if (value?.text.length) {
         const text = new Text(value.text, {
           fontSize: legendsSurfaceHeight / 3,
-          fill: value.color
+          fill: value.color,
         });
         let legendPosition: Point2D;
         let legendPivot: Point2D;
         switch (key) {
           case 'topLeft':
-            legendPosition = {x: legendsSurfaceX, y: legendsSurfaceY};
-            legendPivot = {x: 0, y: 0};
+            legendPosition = { x: legendsSurfaceX, y: legendsSurfaceY };
+            legendPivot = { x: 0, y: 0 };
             break;
           case 'top':
             legendPosition = {
               x: legendsSurfaceX + legendsSurfaceWidth / 2,
-              y: legendsSurfaceY
+              y: legendsSurfaceY,
             };
-            legendPivot = {x: text.width / 2, y: 0};
+            legendPivot = { x: text.width / 2, y: 0 };
             break;
           case 'topRight':
             legendPosition = {
               x: legendsSurfaceX + legendsSurfaceWidth,
-              y: legendsSurfaceY
+              y: legendsSurfaceY,
             };
-            legendPivot = {x: text.width, y: 0};
+            legendPivot = { x: text.width, y: 0 };
             break;
           case 'left':
             legendPosition = {
               x: legendsSurfaceX,
-              y: legendsSurfaceY + legendsSurfaceHeight / 2
+              y: legendsSurfaceY + legendsSurfaceHeight / 2,
             };
-            legendPivot = {x: 0, y: text.height / 2};
+            legendPivot = { x: 0, y: text.height / 2 };
             break;
           case 'center':
             legendPosition = {
               x: legendsSurfaceX + legendsSurfaceWidth / 2,
-              y: legendsSurfaceY + legendsSurfaceHeight / 2
+              y: legendsSurfaceY + legendsSurfaceHeight / 2,
             };
-            legendPivot = {x: text.width / 2, y: text.height / 2};
+            legendPivot = { x: text.width / 2, y: text.height / 2 };
             break;
           case 'right':
             legendPosition = {
               x: legendsSurfaceX + legendsSurfaceWidth,
-              y: legendsSurfaceY + legendsSurfaceHeight / 2
+              y: legendsSurfaceY + legendsSurfaceHeight / 2,
             };
-            legendPivot = {x: text.width, y: text.height / 2};
+            legendPivot = { x: text.width, y: text.height / 2 };
             break;
           case 'bottomLeft':
             legendPosition = {
               x: legendsSurfaceX,
-              y: legendsSurfaceY + legendsSurfaceHeight
+              y: legendsSurfaceY + legendsSurfaceHeight,
             };
-            legendPivot = {x: 0, y: text.height};
+            legendPivot = { x: 0, y: text.height };
             break;
           case 'bottom':
             legendPosition = {
               x: legendsSurfaceX + legendsSurfaceWidth / 2,
-              y: legendsSurfaceY + legendsSurfaceHeight
+              y: legendsSurfaceY + legendsSurfaceHeight,
             };
-            legendPivot = {x: text.width / 2, y: text.height};
+            legendPivot = { x: text.width / 2, y: text.height };
             break;
           case 'bottomRight':
             legendPosition = {
               x: legendsSurfaceX + legendsSurfaceWidth,
-              y: legendsSurfaceY + legendsSurfaceHeight
+              y: legendsSurfaceY + legendsSurfaceHeight,
             };
-            legendPivot = {x: text.width, y: text.height};
+            legendPivot = { x: text.width, y: text.height };
             break;
           case 'frontLeft':
             text.style.fontSize = height - this.surfaceHeight - this.surfaceY;
-            legendPosition = {x: legendsSurfaceX, y: height + padding / 2 - 1};
-            legendPivot = {x: 0, y: text.height};
+            legendPosition = { x: legendsSurfaceX, y: height + padding / 2 - 1 };
+            legendPivot = { x: 0, y: text.height };
             break;
           case 'front':
             text.style.fontSize = height - this.surfaceHeight - this.surfaceY;
             legendPosition = {
               x: legendsSurfaceX + legendsSurfaceWidth / 2,
-              y: height + padding / 2 - 1
+              y: height + padding / 2 - 1,
             };
-            legendPivot = {x: text.width / 2, y: text.height};
+            legendPivot = { x: text.width / 2, y: text.height };
             break;
           case 'frontRight':
             text.style.fontSize = height - this.surfaceHeight - this.surfaceY;
             legendPosition = {
               x: legendsSurfaceX + legendsSurfaceWidth,
-              y: height + padding / 2 - 1
+              y: height + padding / 2 - 1,
             };
-            legendPivot = {x: text.width, y: text.height};
+            legendPivot = { x: text.width, y: text.height };
             break;
         }
 

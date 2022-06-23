@@ -1,11 +1,11 @@
-import type { ProtoKBApplication } from "./ProtoKBApplication";
+import type { ProtoKBApplication } from './ProtoKBApplication';
 
 export enum EVENT {
   KEY_SELECTED = 'key_selected',
 }
 
 export interface SystemEvent {
-  [EVENT.KEY_SELECTED]: (keyId: string) => void
+  [EVENT.KEY_SELECTED]: (keyId: string) => void;
 }
 
 export interface EventsAPI {
@@ -26,8 +26,12 @@ export class Events {
 
     const self = this;
     this._api = {
-      get subscribe() { return self._subscribe },
-      get unsubscribe() { return self._unsubscribe },
+      get subscribe() {
+        return self._subscribe;
+      },
+      get unsubscribe() {
+        return self._unsubscribe;
+      },
     };
   }
 
@@ -38,7 +42,7 @@ export class Events {
           this._processEvent(EVENT.KEY_SELECTED, state.selectedKey);
           break;
       }
-    })
+    });
   }
 
   private _processEvent<T extends keyof SystemEvent>(event: T, value: Parameters<SystemEvent[T]>[0]): void {
@@ -54,12 +58,12 @@ export class Events {
     }
 
     this._subscribers[eventType].push(cb);
-  }
+  };
 
   private _unsubscribe = <T extends keyof SystemEvent>(eventType: T, cb: SystemEvent[T]): void => {
     const index = this._subscribers[eventType].indexOf(cb);
     if (index > -1) {
       this._subscribers[eventType].splice(index, 1);
     }
-  }
+  };
 }

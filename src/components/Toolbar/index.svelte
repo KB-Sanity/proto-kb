@@ -41,7 +41,7 @@
 </script>
 
 <div class="toolbar">
-  <button class="toolbar__button" on:click={handleAddKeyClick} >
+  <button class="toolbar__button" on:click={handleAddKeyClick}>
     <PlusIcon size="24" />
     <span>Add Key</span>
   </button>

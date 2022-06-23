@@ -1,4 +1,4 @@
-import type {ProtoAPI} from './api';
+import type { ProtoAPI } from './api';
 
 export class ProtoPlugin {
   public static title: string;

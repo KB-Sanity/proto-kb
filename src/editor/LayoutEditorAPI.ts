@@ -1,5 +1,5 @@
-import type {KeyboardAPI} from '../entities/Keyboard';
-import type {LayoutEditor} from './LayoutEditor';
+import type { KeyboardAPI } from '../entities/Keyboard';
+import type { LayoutEditor } from './LayoutEditor';
 
 export class LayoutEditorAPI {
   constructor(private _layoutEditor: LayoutEditor) {}

@@ -7,7 +7,7 @@ export interface LayoutStore {
 
 export const layoutStore = map<LayoutStore>({
   layout: [],
-  selectedKey: null
+  selectedKey: null,
 });
 
 function selectKey(keyId: string | null): void {

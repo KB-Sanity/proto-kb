@@ -1,13 +1,13 @@
 export enum FORM_CONTROL {
   INPUT = 'input',
-  SELECT = 'select'
+  SELECT = 'select',
 }
 
 export enum INPUT_CONTROL_TYPE {
   NUMBER = 'number',
-  TEXT = 'text'
+  TEXT = 'text',
 }
 
 export enum SIDEBAR_TAB_TRIGGER {
-  KEY_SELECTED
+  KEY_SELECTED,
 }

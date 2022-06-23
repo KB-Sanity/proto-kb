@@ -1,9 +1,10 @@
-{
-  "arrowParens": "avoid",
-  "bracketSpacing": false,
+  {
+  "arrowParens": "always",
+  "bracketSpacing": true,
   "singleQuote": true,
+  "bracketSameLine": true,
   "svelteSortOrder": "options-scripts-markup-styles",
-  "trailingComma": "none",
+  "trailingComma": "es5",
   "plugins": ["prettier-plugin-svelte"],
   "svelteIndentScriptAndStyle": true
 }

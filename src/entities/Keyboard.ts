@@ -1,12 +1,12 @@
-import type {ProtoKBApplication} from './ProtoKBApplication';
-import type {KeyCapSize, Point2D} from '../interfaces';
-import {Container} from 'pixi.js';
-import {KeyCap, type KeyCapAPI, type KeyCapLegends} from './KeyCap';
+import type { ProtoKBApplication } from './ProtoKBApplication';
+import type { KeyCapSize, Point2D } from '../interfaces';
+import { Container } from 'pixi.js';
+import { KeyCap, type KeyCapAPI, type KeyCapLegends } from './KeyCap';
 
 export interface KeyboardMetadata {
   author?: string;
   backcolor?: string;
-  background?: {name: string; style: string} | null;
+  background?: { name: string; style: string } | null;
   name?: string;
   notes?: string;
   radii?: string;
@@ -61,16 +61,16 @@ export class Keyboard {
       },
       get getSelectedKeyCap() {
         return self._getSelectedKeyCap;
-      }
+      },
     };
   }
 
   private _setMetadata = (metadata: KeyboardMetadata): void => {
-    this._metadata = {...this._metadata, ...metadata};
+    this._metadata = { ...this._metadata, ...metadata };
   };
 
   private _getKeyCap = (keyCapId: string): KeyCapAPI | void => {
-    return this._keyCaps.find(item => item.id === keyCapId)?.api;
+    return this._keyCaps.find((item) => item.id === keyCapId)?.api;
   };
 
   private _getSelectedKeyCap = (): KeyCapAPI | void => {
@@ -83,28 +83,22 @@ export class Keyboard {
   };
 
   private _addKeyCap = (params: AddKeyCapParams = {}): string => {
-    let newPosition: Point2D = params.position || {x: 0, y: 0};
+    let newPosition: Point2D = params.position || { x: 0, y: 0 };
     if (this._keyCaps.length && !params.position) {
       const lastKeycap = this._keyCaps[this._keyCaps.length - 1];
-      const newX =
-        lastKeycap.position.x >= 15
-          ? 0
-          : lastKeycap.position.x + lastKeycap.size.width;
-      const newY =
-        lastKeycap.position.x >= 15
-          ? lastKeycap.position.y + lastKeycap.size.height
-          : lastKeycap.position.y;
-      newPosition = {x: newX, y: newY};
+      const newX = lastKeycap.position.x >= 15 ? 0 : lastKeycap.position.x + lastKeycap.size.width;
+      const newY = lastKeycap.position.x >= 15 ? lastKeycap.position.y + lastKeycap.size.height : lastKeycap.position.y;
+      newPosition = { x: newX, y: newY };
     }
 
     const keyCap = new KeyCap({
       app: this._app,
       position: newPosition,
-      size: params.size || {width: 1, height: 1},
+      size: params.size || { width: 1, height: 1 },
       pivot: params.pivot,
       angle: params.angle,
       legends: params.legends,
-      color: params.color
+      color: params.color,
     });
     this._keyCaps.push(keyCap.appendTo(this.container));
     return keyCap.id;

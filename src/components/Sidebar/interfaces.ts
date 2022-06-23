@@ -1,9 +1,5 @@
-import type {ProtoPlugin} from '../../ProtoPlugin';
-import type {
-  FORM_CONTROL,
-  INPUT_CONTROL_TYPE,
-  SIDEBAR_TAB_TRIGGER
-} from './constants';
+import type { ProtoPlugin } from '../../ProtoPlugin';
+import type { FORM_CONTROL, INPUT_CONTROL_TYPE, SIDEBAR_TAB_TRIGGER } from './constants';
 
 export interface ControlAPI {
   setValue(value: any): void;
@@ -18,11 +14,7 @@ export interface TabAPI {
 }
 
 export interface SidebarAPI {
-  registerTab<T extends ProtoPlugin>(
-    plugin: T,
-    schema: SidebarSchema,
-    options: SidebarTabOptions
-  ): TabAPI | void;
+  registerTab<T extends ProtoPlugin>(plugin: T, schema: SidebarSchema, options: SidebarTabOptions): TabAPI | void;
 }
 
 export type Subscription = (data: any, changedField: string) => void;

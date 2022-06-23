@@ -12,8 +12,8 @@
     "dev": "rollup -c -w",
     "start": "sirv public --no-clear",
     "check": "svelte-check --tsconfig ./tsconfig.json",
-    "format": "prettier --write '{public,src}/**/*.{css,html,js,svelte}'",
-    "lint": "eslint --fix --quiet src --ext .js,.svelte"
+    "format": "prettier --write '{public,src}/**/*.{css,html,ts,js,svelte}'",
+    "lint": "eslint --fix --quiet src --ext .ts,.js,.svelte"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^22.0.0",
@@ -40,6 +40,7 @@
     "sass": "^1.52.3",
     "svelte": "^3.48.0",
     "svelte-check": "^2.7.2",
+    "svelte-eslint-parser": "^0.16.3",
     "svelte-feather-icons": "^4.0.0",
     "svelte-preprocess": "^4.10.7",
     "tslib": "^2.4.0",

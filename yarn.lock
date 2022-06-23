@@ -1832,7 +1832,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-scope@npm:^7.1.1":
+"eslint-scope@npm:^7.0.0, eslint-scope@npm:^7.1.1":
   version: 7.1.1
   resolution: "eslint-scope@npm:7.1.1"
   dependencies:
@@ -1860,7 +1860,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-visitor-keys@npm:^3.3.0":
+"eslint-visitor-keys@npm:^3.0.0, eslint-visitor-keys@npm:^3.3.0":
   version: 3.3.0
   resolution: "eslint-visitor-keys@npm:3.3.0"
   checksum: d59e68a7c5a6d0146526b0eec16ce87fbf97fe46b8281e0d41384224375c4e52f5ffb9e16d48f4ea50785cde93f766b0c898e31ab89978d88b0e1720fbfb7808
@@ -1912,7 +1912,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"espree@npm:^9.3.2":
+"espree@npm:^9.0.0, espree@npm:^9.3.2":
   version: 9.3.2
   resolution: "espree@npm:9.3.2"
   dependencies:
@@ -3946,6 +3946,7 @@ __metadata:
     sirv-cli: ^2.0.2
     svelte: ^3.48.0
     svelte-check: ^2.7.2
+    svelte-eslint-parser: ^0.16.3
     svelte-feather-icons: ^4.0.0
     svelte-preprocess: ^4.10.7
     tslib: ^2.4.0
@@ -4797,6 +4798,19 @@ __metadata:
   bin:
     svelte-check: bin/svelte-check
   checksum: e9aac2c659d45ff62ceffc9cdd201711e3108ea45934588bb09bf7cfd86f34cae3d6601f23037412301c87d56441843e33ce874262a58b95dd72b2bb53aaa802
+  languageName: node
+  linkType: hard
+
+"svelte-eslint-parser@npm:^0.16.3":
+  version: 0.16.3
+  resolution: "svelte-eslint-parser@npm:0.16.3"
+  dependencies:
+    eslint-scope: ^7.0.0
+    eslint-visitor-keys: ^3.0.0
+    espree: ^9.0.0
+  peerDependencies:
+    svelte: ^3.37.0
+  checksum: e7543d0dd2946287704ad2ffc76629f054b95371101d6fd69755b5058e1a800d332b0d10ca980dce1cbcc6c0d617c25486abeb6d26408bec94c37eb3de824204
   languageName: node
   linkType: hard
 
