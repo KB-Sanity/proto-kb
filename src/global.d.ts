@@ -1,2 +1,2 @@
 /// <reference types="svelte" />
-import 'svelte';
+/// <reference types="vite/client" />
