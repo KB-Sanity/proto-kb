@@ -3,30 +3,27 @@
 <script lang="ts">
   import { nanoid } from 'nanoid';
   import { createEventDispatcher } from 'svelte';
-  import type { ControlAPI, FormInputControl } from '../interfaces';
+  import type { ControlAPI, FormColorControl } from '../interfaces';
 
-  const id = nanoid();
   const dispatch = createEventDispatcher();
-
-  export let data: FormInputControl;
-  export let value: string | number = '';
-
-  $: type = data.type || 'number';
-
-  const setValue = (val: string | number): void => {
-    value = type ? Number(val) : val;
-  };
-
-  const getValue = (): string | number => {
-    return (value = type ? Number(value) : value);
-  };
+  const id = nanoid();
+  export let data: FormColorControl;
+  export let value = '';
 
   const handleChange = (e: Event & { currentTarget: EventTarget & HTMLInputElement }) => {
     if (!e.currentTarget) {
       return;
     }
     setValue(e.currentTarget.value);
-    dispatch('change', getValue());
+    dispatch('change', e.currentTarget.value);
+  };
+
+  const setValue = (val: string): void => {
+    value = val;
+  };
+
+  const getValue = (): string => {
+    return value;
   };
 
   export function getApi(): ControlAPI {
@@ -48,9 +45,13 @@
       <span>({data.description})</span>
     {/if}
   </label>
-  <input {value} step={data.step || 'any'} min={data.min} max={data.max} on:change={handleChange} {id} {type} />
+  <input class="color-picker" {value} on:change={handleChange} {id} type="color" />
 </div>
 
 <style lang="scss" global>
   @import '../forms.scss';
+
+  .color-picker {
+    padding: 0;
+  }
 </style>

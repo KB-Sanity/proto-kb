@@ -5,7 +5,9 @@
   import { EVENT } from '../../entities/Events';
   import type { ProtoKBApplication } from '../../entities/ProtoKBApplication';
   import type { ProtoPlugin } from '../../ProtoPlugin';
-  import { FORM_CONTROL, SIDEBAR_TAB_TRIGGER } from './constants';
+  import HeaderBlock from './blocks/HeaderBlock.svelte';
+  import { FORM_BLOCK, FORM_CONTROL, SIDEBAR_TAB_TRIGGER } from './constants';
+  import ColorControl from './controls/ColorControl.svelte';
   import InputControl from './controls/InputControl.svelte';
   import SelectControl from './controls/SelectControl.svelte';
   import type {
@@ -21,6 +23,11 @@
   const controlComponents = {
     [FORM_CONTROL.INPUT]: InputControl,
     [FORM_CONTROL.SELECT]: SelectControl,
+    [FORM_CONTROL.COLOR]: ColorControl,
+  };
+
+  const blockComponents = {
+    [FORM_BLOCK.HEADER]: HeaderBlock,
   };
 
   let shownTabs: SidebarTab[] = [];
@@ -158,18 +165,25 @@
     <div class="sidebar__content">
       {#if currentTab}
         {#each currentTab.schema as control}
-          <svelte:component
-            this={controlComponents[control.control]}
-            bind:this={currentContent[control.key]}
-            bind:value={currentTabValue[control.key]}
-            on:change={(value) => handleControlChange(control, value)}
-            data={control} />
+          {#if 'control' in control}
+            <svelte:component
+              this={controlComponents[control.control]}
+              bind:this={currentContent[control.key]}
+              bind:value={currentTabValue[control.key]}
+              on:change={(value) => handleControlChange(control, value)}
+              data={control} />
+          {:else if 'block' in control}
+            <svelte:component this={blockComponents[control.block]} data={control} />
+          {/if}
         {/each}
       {/if}
     </div>
     <div class="sidebar__tabs">
       {#each tabs as tab}
-        <div class="sidebar__tab" on:click={() => handleTabClick(tab)}>
+        <div
+          class="sidebar__tab"
+          class:_active={tab.plugin === currentTab?.plugin}
+          on:click={() => handleTabClick(tab)}>
           {tab.options.tabName}
         </div>
       {/each}
