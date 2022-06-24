@@ -47,9 +47,16 @@ export interface KeyCapAPI {
   size: KeyCapSize;
   width: number;
   height: number;
+  pivot: Point2D;
+  angle: number;
+  color: string;
 
   // METHODS
   moveTo(position: Point2D): void;
+  setSize(size: KeyCapSize): void;
+  setPivot(pivot: Point2D): void;
+  setAngle(angle: number): void;
+  setColor(color: string): void;
 }
 
 const defaultOptions: Partial<KeyCapOptions> = {
@@ -150,7 +157,7 @@ export class KeyCap {
     this._graphics.on('pointerdown', this._onClick.bind(this));
 
     this._initSubscriptions();
-    this._draw(this._app.store.layout.get());
+    this._draw();
 
     const self = this;
     this._api = {
@@ -173,17 +180,58 @@ export class KeyCap {
       get height() {
         return self.height;
       },
+      get pivot() {
+        return { ...self._pivot };
+      },
+      get angle() {
+        return self._angle;
+      },
+      get color() {
+        return self._keycapColor;
+      },
 
       // METHODS
       get moveTo() {
         return self._moveTo;
       },
+      get setSize() {
+        return self._setSize;
+      },
+      get setPivot() {
+        return self._setPivot;
+      },
+      get setAngle() {
+        return self._setAngle;
+      },
+      get setColor() {
+        return self._setColor;
+      },
     };
   }
 
+  private _setColor = (color: string): void => {
+    this._keycapColor = color;
+    this._draw();
+  };
+
+  private _setAngle = (angle: number): void => {
+    this._angle = angle;
+    this._draw();
+  };
+
   private _moveTo = (position: Point2D): void => {
     this._position = { ...position };
-    this._draw(this._app.store.layout.get());
+    this._draw();
+  };
+
+  private _setSize = (size: KeyCapSize): void => {
+    this._size = { ...size };
+    this._draw();
+  };
+
+  private _setPivot = (pivot: Point2D): void => {
+    this._pivot = { ...pivot };
+    this._draw();
   };
 
   private _initSubscriptions(): void {
@@ -195,7 +243,7 @@ export class KeyCap {
     event.stopPropagation();
   }
 
-  private _draw(layoutState: LayoutStore): void {
+  private _draw(layoutState: LayoutStore = this._app.store.layout.get()): void {
     const unitSize = this._app.settings.unitSize;
     const cornerRadius = this._app.settings.keyCapCornerRadius;
     const isSelected = layoutState.selectedKey === this.id;
@@ -237,6 +285,24 @@ export class KeyCap {
       .endFill();
 
     this._drawLegends();
+    this._drawPivot();
+  }
+
+  private _drawPivot(): void {
+    if (this._pivot.x !== 0 || this._pivot.y !== 0) {
+      const x = this._pivot.x * this._unitSize;
+      const y = this._pivot.y * this._unitSize;
+      const rad = Math.PI / 180;
+      const a = this._angle;
+      this._graphics
+        .lineStyle({ width: 2, color: 0x000000 })
+        // vertical
+        .moveTo(x + Math.cos((-90 - a) * rad) * 5, y + Math.sin((-90 - a) * rad) * 5)
+        .lineTo(x + Math.cos((90 - a) * rad) * 5, y + Math.sin((90 - a) * rad) * 5)
+        // horizontal
+        .moveTo(x + Math.cos(-a * rad) * 5, y + Math.sin(-a * rad) * 5)
+        .lineTo(x + Math.cos((180 - a) * rad) * 5, y + Math.sin((180 - a) * rad) * 5);
+    }
   }
 
   // TODO: refactor

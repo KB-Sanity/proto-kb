@@ -14,6 +14,7 @@
     if (!e.currentTarget) {
       return;
     }
+    setValue(e.currentTarget.value);
     dispatch('change', e.currentTarget.value);
   };
 

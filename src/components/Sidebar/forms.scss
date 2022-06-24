@@ -1,6 +1,8 @@
 .form-row {
   padding: 0px 5px 5px;
   position: relative;
+  width: 100%;
+  box-sizing: border-box;
 
   &.inline {
     display: inline-flex;
@@ -16,7 +18,6 @@
   }
 
   &.half {
-    box-sizing: border-box;
     width: 50%;
     display: inline-block;
   }
