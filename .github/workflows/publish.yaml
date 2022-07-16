@@ -24,7 +24,7 @@ jobs:
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
       - name: Install dependencies
         if: steps.change-node_modules.outputs.cache-hit != 'true'
-        run: yarn
+        run: yarn --immutable
       - name: Build proto-kb
         run: yarn run build-github
       - name: Deploy

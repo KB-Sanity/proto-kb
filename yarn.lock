@@ -3862,13 +3862,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pixi@npm:^0.3.1":
-  version: 0.3.1
-  resolution: "pixi@npm:0.3.1"
-  checksum: 66390fdbe10712f360d7d97fe613cb417318ac30b02af28950f9e37d6cb487881803201db2acdefd58adad636534a1373cedb2632e38c7f491e28c1f5d7f0baf
-  languageName: node
-  linkType: hard
-
 "postcss@npm:^8.4.13":
   version: 8.4.14
   resolution: "postcss@npm:8.4.14"
@@ -3964,7 +3957,6 @@ __metadata:
     nanoid: ^4.0.0
     nanostores: ^0.5.12
     node-sass: ^7.0.1
-    pixi: ^0.3.1
     pixi.js: ^6.4.2
     prettier: ^2.7.1
     prettier-plugin-svelte: ^2.7.0
