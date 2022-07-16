@@ -32,7 +32,7 @@
 
   let shownTabs: SidebarTab[] = [];
   let currentTab: SidebarTab | null;
-  let currentContent: Record<string, InputControl | SelectControl> = {};
+  let currentContent: Record<string, InputControl | SelectControl | ColorControl> = {};
   let currentTabValue: Record<string, any> = {};
   let subscriptions: Subscription[] = [];
   let tabs: SidebarTab[] = [];
@@ -149,11 +149,11 @@
         }
         const isExistCurrentTab = currentTab && shownTabs.find((tab) => tab.plugin === currentTab.plugin);
         if (!shownTabs.length) {
-          handleTabClick(null);
+          void handleTabClick(null);
         } else if (!currentTab || (currentTab && !isExistCurrentTab)) {
-          handleTabClick(shownTabs[0]);
+          void handleTabClick(shownTabs[0]);
         } else if (currentTab && isExistCurrentTab) {
-          handleTabClick(currentTab);
+          void handleTabClick(currentTab);
         }
       });
     }

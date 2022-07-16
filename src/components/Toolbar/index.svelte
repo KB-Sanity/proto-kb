@@ -2,13 +2,35 @@
 
 <script lang="ts">
   import type { ProtoKBApplication } from '../../entities/ProtoKBApplication';
-  import { PlusIcon, DownloadIcon } from 'svelte-feather-icons';
-  import { pickFile } from '../../lib/pickFile';
-  import { parseData, type KLERows } from '../../lib/kle';
+  import * as FeatherIcons from 'svelte-feather-icons';
+  import type { ProtoPlugin } from 'src/ProtoPlugin';
+  import type { ToolbarButton, ToolbarButtonOptions } from './interfaces';
+
+  let buttons: ToolbarButton[] = [];
 
   export let app: ProtoKBApplication;
 
-  const handleAddKeyClick = () => {
+  const registerButtons = <T extends ProtoPlugin>(plugin: T, btns: ToolbarButtonOptions[]): void => {
+    const pluginId = (<typeof ProtoPlugin>plugin.constructor).id;
+    const isButtonsRegistered = buttons.find((item) => item.plugin === pluginId);
+    if (isButtonsRegistered) {
+      return console.warn(`Toolbar buttons for plugin with id ${pluginId} already registered.`);
+    }
+
+    buttons = [...buttons, ...btns.map((button) => ({ plugin: pluginId, options: button }))];
+  };
+
+  $: {
+    if (app) {
+      app.api.toolbar = {
+        get registerButtons() {
+          return registerButtons;
+        },
+      };
+    }
+  }
+
+  /* const handleAddKeyClick = () => {
     app.api.layoutEditor.getKeyboard().addKeyCap();
   };
 
@@ -37,19 +59,27 @@
       };
       fileReader.readAsText(file);
     });
-  };
+  };*/
 </script>
 
 <div class="toolbar">
-  <button class="toolbar__button" on:click={handleAddKeyClick}>
-    <PlusIcon size="24" />
+  {#each buttons as button}
+    <button class="toolbar__button" on:click={() => button.options?.onClick()}>
+      <svelte:component
+        this={FeatherIcons[`${button.options.icon}Icon`]}
+        size={button.options.size ? String(button.options.size) : '24'} />
+      <span>{button.options.name}</span>
+    </button>
+  {/each}
+  <!--<button class="toolbar__button" on:click={handleAddKeyClick}>
+    <svelte:component this={FeatherIcons[`${'Plus'}Icon`]} size="24" />
     <span>Add Key</span>
   </button>
 
   <button class="toolbar__button _download" on:click={handleLoadKleLayout}>
-    <DownloadIcon size="22" />
+    <svelte:component this={FeatherIcons[`${'Download'}Icon`]} size="22" />
     <span>Load KLE layout</span>
-  </button>
+  </button>-->
 </div>
 
 <style lang="scss">
@@ -78,10 +108,6 @@
         span {
           display: block;
         }
-      }
-
-      &._download {
-        padding: 4px;
       }
     }
   }

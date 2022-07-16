@@ -1,6 +1,7 @@
 /public/build/
 /public/index.html
 dist
+types/**/*.d.ts
 
 .DS_Store
 # Logs

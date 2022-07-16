@@ -1,8 +1,11 @@
+import type { ToolbarAPI } from '../components/Toolbar/interfaces';
 import type { SidebarAPI } from '../components/Sidebar/interfaces';
 import type { LayoutEditorAPI } from '../editor/LayoutEditorAPI';
 import type { EventsAPI } from '../entities/Events';
+import type { UtilsAPI } from './utils';
+import utils from './utils';
 
-const apiList = ['layoutEditor', 'sidebar', 'events'];
+const apiList = ['layoutEditor', 'toolbar', 'sidebar', 'events'];
 
 export class ProtoAPI {
   private _layoutEditor: LayoutEditorAPI;
@@ -12,6 +15,17 @@ export class ProtoAPI {
   public set layoutEditor(api: LayoutEditorAPI) {
     if (!this._layoutEditor) {
       this._layoutEditor = api;
+      this._checkApiStatus();
+    }
+  }
+
+  private _toolbar: ToolbarAPI;
+  public get toolbar(): ToolbarAPI {
+    return this._toolbar;
+  }
+  public set toolbar(api: ToolbarAPI) {
+    if (!this._toolbar) {
+      this._toolbar = api;
       this._checkApiStatus();
     }
   }
@@ -37,6 +51,8 @@ export class ProtoAPI {
       this._checkApiStatus();
     }
   }
+
+  public utils: UtilsAPI = utils;
 
   constructor(private _initializedCb: () => void) {}
 
