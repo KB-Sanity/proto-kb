@@ -1,0 +1,8 @@
+[
+  {
+    "name": "KLE Import",
+    "description": "Proto KB plugin that allow to import KLE layouts",
+    "id": "com.protokb.kle_import",
+    "repo": "https://github.com/KB-Sanity/protokb-kle-import"
+  }
+]
