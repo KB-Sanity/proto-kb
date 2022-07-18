@@ -1,23 +1,17 @@
 <script lang="ts">
   import { onMount } from 'svelte';
+  import { Modals, closeModal } from 'svelte-modals';
 
   import type { AppSettings } from './interfaces';
   import Sidebar from './components/Sidebar/index.svelte';
   import LayoutEditor from './editor/LayoutEditor.svelte';
   import { ProtoKBApplication } from './entities/ProtoKBApplication';
   import { rootState } from './store';
-  import { ProtoAPI } from './api';
   import { Events } from './entities/Events';
-  import { builinPlugins } from './plugins';
 
   let layoutEditor: LayoutEditor;
   let app: ProtoKBApplication;
 
-  const api = new ProtoAPI(() => {
-    for (const Plugin of builinPlugins) {
-      new Plugin(api);
-    }
-  });
   onMount(() => {
     const pixiContainer = layoutEditor.getContainer();
 
@@ -37,8 +31,7 @@
         height: pixiContainer.clientHeight,
       },
       rootState,
-      appSettings,
-      api
+      appSettings
     );
 
     app.api.events = new Events(app).api;
@@ -52,6 +45,9 @@
     <LayoutEditor bind:this={layoutEditor} {app} />
     <Sidebar {app} />
   </div>
+  <Modals>
+    <div slot="backdrop" class="backdrop" on:click={closeModal} />
+  </Modals>
 </main>
 
 <style lang="scss">
@@ -66,5 +62,14 @@
   .layout-editor {
     display: flex;
     flex: 1;
+  }
+
+  .backdrop {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.5);
   }
 </style>

@@ -1,18 +1,30 @@
 import type { IApplicationOptions } from 'pixi.js';
 import { Application } from 'pixi.js';
 import type { AppSettings } from '../interfaces';
-import type { ProtoAPI } from '../api';
+import { ProtoAPI } from '../api';
 import type { RootStore } from '../store';
+import { builinPlugins } from '../plugins';
+import { PluginsLoader } from './PluginsLoader';
 
 export class ProtoKBApplication extends Application {
-  constructor(
-    options: IApplicationOptions,
-    public readonly store: RootStore,
-    public readonly settings: AppSettings,
-    public readonly api: ProtoAPI
-  ) {
+  public pluginsLoader: PluginsLoader;
+  public api: ProtoAPI;
+
+  constructor(options: IApplicationOptions, public readonly store: RootStore, public readonly settings: AppSettings) {
     super(options);
 
+    this._initPluginsLoader();
+
     this.stage.sortableChildren = true;
+  }
+
+  private _initPluginsLoader(): void {
+    this.api = new ProtoAPI(() => {
+      for (const Plugin of builinPlugins) {
+        this.pluginsLoader.applyPluginClass(Plugin);
+      }
+    });
+
+    this.pluginsLoader = new PluginsLoader(this.api);
   }
 }

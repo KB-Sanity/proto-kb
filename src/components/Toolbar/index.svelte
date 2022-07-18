@@ -29,37 +29,6 @@
       };
     }
   }
-
-  /* const handleAddKeyClick = () => {
-    app.api.layoutEditor.getKeyboard().addKeyCap();
-  };
-
-  const handleLoadKleLayout = () => {
-    pickFile('application/JSON').then((file) => {
-      const fileReader = new FileReader();
-      fileReader.onload = (event: ProgressEvent) => {
-        const reader = event.target as FileReader;
-        if (reader.result) {
-          const rows: KLERows = JSON.parse(reader.result as string);
-          for (const key of parseData(rows)) {
-            if ('position' in key) {
-              app.api.layoutEditor.getKeyboard().addKeyCap({
-                position: key.position,
-                size: key.size,
-                pivot: key.pivot,
-                angle: key.angle,
-                legends: key.legends,
-                color: key.color,
-              });
-            } else {
-              app.api.layoutEditor.getKeyboard().setMetadata(key);
-            }
-          }
-        }
-      };
-      fileReader.readAsText(file);
-    });
-  };*/
 </script>
 
 <div class="toolbar">
@@ -71,15 +40,6 @@
       <span>{button.options.name}</span>
     </button>
   {/each}
-  <!--<button class="toolbar__button" on:click={handleAddKeyClick}>
-    <svelte:component this={FeatherIcons[`${'Plus'}Icon`]} size="24" />
-    <span>Add Key</span>
-  </button>
-
-  <button class="toolbar__button _download" on:click={handleLoadKleLayout}>
-    <svelte:component this={FeatherIcons[`${'Download'}Icon`]} size="22" />
-    <span>Load KLE layout</span>
-  </button>-->
 </div>
 
 <style lang="scss">
