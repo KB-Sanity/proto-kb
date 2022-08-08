@@ -25,11 +25,12 @@ export interface AddKeyCapParams {
 }
 
 export interface KeyboardAPI {
-  addKeyCap(params?: AddKeyCapParams): string;
+  addKeyCap(params?: AddKeyCapParams): KeyCapAPI;
   moveBy(position?: Point2D): void;
   getKeyCap(keyCapId: string): KeyCapAPI | void;
   setMetadata(metadata: KeyboardMetadata): void;
   getSelectedKeyCap(): KeyCapAPI | void;
+  getAllKeyCaps(): KeyCapAPI[];
 }
 
 export class Keyboard {
@@ -62,6 +63,9 @@ export class Keyboard {
       get getSelectedKeyCap() {
         return self._getSelectedKeyCap;
       },
+      get getAllKeyCaps() {
+        return self._getAllKeyCaps;
+      },
     };
   }
 
@@ -73,6 +77,10 @@ export class Keyboard {
     return this._keyCaps.find((item) => item.id === keyCapId)?.api;
   };
 
+  private _getAllKeyCaps = (): KeyCapAPI[] => {
+    return this._keyCaps.map((item) => item.api);
+  };
+
   private _getSelectedKeyCap = (): KeyCapAPI | void => {
     return this._getKeyCap(this._app.store.layout.get().selectedKey);
   };
@@ -82,7 +90,7 @@ export class Keyboard {
     this.container.y += delta.y;
   };
 
-  private _addKeyCap = (params: AddKeyCapParams = {}): string => {
+  private _addKeyCap = (params: AddKeyCapParams = {}): KeyCapAPI => {
     let newPosition: Point2D = params.position || { x: 0, y: 0 };
     if (this._keyCaps.length && !params.position) {
       const lastKeycap = this._keyCaps[this._keyCaps.length - 1];
@@ -101,6 +109,6 @@ export class Keyboard {
       color: params.color,
     });
     this._keyCaps.push(keyCap.appendTo(this.container));
-    return keyCap.id;
+    return keyCap.api;
   };
 }

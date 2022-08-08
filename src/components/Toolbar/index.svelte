@@ -1,9 +1,9 @@
 <svelte:options immutable />
 
 <script lang="ts">
-  import type { ProtoKBApplication } from '../../entities/ProtoKBApplication';
+  import type { ProtoKBApplication } from '../../core/ProtoKBApplication';
   import * as FeatherIcons from 'svelte-feather-icons';
-  import type { ProtoPlugin } from 'src/ProtoPlugin';
+  import type { ProtoPlugin } from '../../core/ProtoPlugin';
   import type { ToolbarButton, ToolbarButtonOptions } from './interfaces';
 
   let buttons: ToolbarButton[] = [];

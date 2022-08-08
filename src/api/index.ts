@@ -1,11 +1,12 @@
 import type { ToolbarAPI } from '../components/Toolbar/interfaces';
 import type { SidebarAPI } from '../components/Sidebar/interfaces';
-import type { LayoutEditorAPI } from '../editor/LayoutEditorAPI';
-import type { EventsAPI } from '../entities/Events';
+import type { LayoutEditorAPI } from '../components/LayoutEditor/interfaces';
+import type { EventsAPI } from '../core/Events';
 import type { UtilsAPI } from './utils';
 import utils from './utils';
+import type { PluginsLoaderAPI } from 'src/core/PluginsLoader';
 
-const apiList = ['layoutEditor', 'toolbar', 'sidebar', 'events'];
+const apiList = ['layoutEditor', 'toolbar', 'sidebar', 'events', 'pluginsLoader'];
 
 export class ProtoAPI {
   private _layoutEditor: LayoutEditorAPI;
@@ -48,6 +49,17 @@ export class ProtoAPI {
   public set events(api: EventsAPI) {
     if (!this._events) {
       this._events = api;
+      this._checkApiStatus();
+    }
+  }
+
+  private _pluginsLoader: PluginsLoaderAPI;
+  public get pluginsLoader(): PluginsLoaderAPI {
+    return this._pluginsLoader;
+  }
+  public set pluginsLoader(api: PluginsLoaderAPI) {
+    if (!this._events) {
+      this._pluginsLoader = api;
       this._checkApiStatus();
     }
   }

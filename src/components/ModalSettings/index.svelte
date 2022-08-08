@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { ProtoKBApplication } from '../../entities/ProtoKBApplication';
+  import type { ProtoKBApplication } from '../../core/ProtoKBApplication';
 
   import { XIcon } from 'svelte-feather-icons';
   import { closeModal } from 'svelte-modals';
@@ -37,7 +37,7 @@
           <button class="tab" class:active={openedTab == TAB.GITHUB} on:click={openGitHubTab}> GitHub </button>
         </div>
         <div class="tab-content">
-          <svelte:component this={tabComponents[openedTab]} app={app} />
+          <svelte:component this={tabComponents[openedTab]} {app} />
         </div>
       </div>
     </div>

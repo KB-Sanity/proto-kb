@@ -1,4 +1,4 @@
-import type { ProtoPlugin } from '../../ProtoPlugin';
+import type { ProtoPlugin } from '../../core/ProtoPlugin';
 import type { FORM_BLOCK, FORM_CONTROL, INPUT_CONTROL_TYPE, SIDEBAR_TAB_TRIGGER } from './constants';
 
 export interface ControlAPI {

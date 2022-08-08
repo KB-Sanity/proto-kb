@@ -1,9 +1,9 @@
 import type { ProtoAPI } from '../../api';
 import { FORM_BLOCK, FORM_CONTROL, SIDEBAR_TAB_TRIGGER } from '../../components/Sidebar/constants';
 import type { SidebarSchema, TabAPI } from '../../components/Sidebar/interfaces';
-import type { ProtoPlugin } from '../../ProtoPlugin';
+import { ProtoPlugin } from '../../core/ProtoPlugin';
 
-export class KeyParametersPlugin implements ProtoPlugin {
+export class KeyParametersPlugin extends ProtoPlugin {
   public static title = 'Key Parameters';
   public static desctiption = 'Control keycap parameters like legends, colors etc.';
   public static id = 'com.protokb.key_parameters';
@@ -97,6 +97,7 @@ export class KeyParametersPlugin implements ProtoPlugin {
   ];
 
   constructor(public api: ProtoAPI) {
+    super(api);
     api.sidebar.registerTab(this, this._sidebarLayout, {
       tabName: 'Key Parameters',
       trigger: SIDEBAR_TAB_TRIGGER.KEY_SELECTED,

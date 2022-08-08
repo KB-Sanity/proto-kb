@@ -2,9 +2,9 @@
 
 <script lang="ts">
   import { tick } from 'svelte';
-  import { EVENT } from '../../entities/Events';
-  import type { ProtoKBApplication } from '../../entities/ProtoKBApplication';
-  import type { ProtoPlugin } from '../../ProtoPlugin';
+  import { EVENT } from '../../core/Events';
+  import type { ProtoKBApplication } from '../../core/ProtoKBApplication';
+  import type { ProtoPlugin } from '../../core/ProtoPlugin';
   import HeaderBlock from './blocks/HeaderBlock.svelte';
   import { FORM_BLOCK, FORM_CONTROL, SIDEBAR_TAB_TRIGGER } from './constants';
   import ColorControl from './controls/ColorControl.svelte';

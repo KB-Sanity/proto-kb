@@ -1,11 +1,11 @@
 <svelte:options immutable />
 
 <script lang="ts">
-  import { HTTPClient, type ApiPlugin } from '../../../http';
+  import { HTTPClient, type ApiPlugin } from '../../../core/http';
 
-  import { onMount, tick } from 'svelte';
+  import { onMount } from 'svelte';
   import { CheckIcon, ClockIcon, PlusIcon } from 'svelte-feather-icons';
-  import type { ProtoKBApplication } from '../../..//entities/ProtoKBApplication';
+  import type { ProtoKBApplication } from '../../../core/ProtoKBApplication';
 
   export let app: ProtoKBApplication;
 
@@ -25,7 +25,6 @@
 
   const isInstalled = (pluginId: string) => {
     const res = app.pluginsLoader.isInstalled(pluginId);
-    console.log(pluginId, res);
     return res;
   };
 </script>

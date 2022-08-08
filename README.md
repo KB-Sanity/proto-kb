@@ -14,7 +14,7 @@ This project was inspired by [keyboard-layout-editor](https://github.com/ijprest
 - [ ] Key metadata
 - [x] Key parameter panel (position, rotation angle and pivot, size, color)
 - [ ] Visual editor basic implementation (add key, remove key, move key, select group of keys)
-- [ ] Implement proto-kb layout format
+- [x] Implement proto-kb layout format
 - [ ] Implement github integration
 - [x] Plugins system
 

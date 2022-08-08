@@ -50,6 +50,7 @@ export interface KeyCapAPI {
   pivot: Point2D;
   angle: number;
   color: string;
+  id: string;
 
   // METHODS
   moveTo(position: Point2D): void;
@@ -57,6 +58,17 @@ export interface KeyCapAPI {
   setPivot(pivot: Point2D): void;
   setAngle(angle: number): void;
   setColor(color: string): void;
+  toJSON(): KeyCapData;
+  fromJSON(json: KeyCapData): void;
+}
+
+export interface KeyCapData {
+  position: Point2D;
+  size: KeyCapSize;
+  pivot: Point2D;
+  angle: number;
+  legends: KeyCapLegends;
+  color: string;
 }
 
 const defaultOptions: Partial<KeyCapOptions> = {
@@ -85,30 +97,6 @@ export class KeyCap {
   private _api: KeyCapAPI;
   public get api(): KeyCapAPI {
     return this._api;
-  }
-
-  public get position(): Point2D {
-    return { ...this._position };
-  }
-
-  public get x(): number {
-    return this._position.x;
-  }
-
-  public get y(): number {
-    return this._position.y;
-  }
-
-  public get size(): KeyCapSize {
-    return { ...this._size };
-  }
-
-  public get width(): number {
-    return this._size.width;
-  }
-
-  public get height(): number {
-    return this._size.height;
   }
 
   private get _unitSize(): number {
@@ -163,22 +151,22 @@ export class KeyCap {
     this._api = {
       // PROPERTIES
       get position() {
-        return self.position;
+        return { ...self._position };
       },
       get x() {
-        return self.x;
+        return self._position.x;
       },
       get y() {
-        return self.y;
+        return self._position.y;
       },
       get size() {
-        return self.size;
+        return { ...self._size };
       },
       get width() {
-        return self.width;
+        return self._size.width;
       },
       get height() {
-        return self.height;
+        return self._size.height;
       },
       get pivot() {
         return { ...self._pivot };
@@ -188,6 +176,9 @@ export class KeyCap {
       },
       get color() {
         return self._keycapColor;
+      },
+      get id() {
+        return self.id;
       },
 
       // METHODS
@@ -205,6 +196,12 @@ export class KeyCap {
       },
       get setColor() {
         return self._setColor;
+      },
+      get toJSON() {
+        return self._toJSON;
+      },
+      get fromJSON() {
+        return self._fromJSON;
       },
     };
   }
@@ -232,6 +229,26 @@ export class KeyCap {
   private _setPivot = (pivot: Point2D): void => {
     this._pivot = { ...pivot };
     this._draw();
+  };
+
+  private _toJSON = (): KeyCapData => {
+    return {
+      position: { ...this._position },
+      size: { ...this._size },
+      pivot: { ...this._pivot },
+      angle: this._angle,
+      color: this._keycapColor,
+      legends: JSON.parse(JSON.stringify(this._legends)), // TODO normal deep clone
+    };
+  };
+
+  private _fromJSON = (json: KeyCapData) => {
+    this._position = { ...json.position };
+    this._size = { ...json.size };
+    this._pivot = { ...json.pivot };
+    this._angle = json.angle;
+    this._keycapColor = json.color;
+    this._legends = JSON.parse(JSON.stringify(this._legends)); // TODO normal deep clone
   };
 
   private _initSubscriptions(): void {

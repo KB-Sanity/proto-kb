@@ -21,10 +21,11 @@ export class ProtoKBApplication extends Application {
   private _initPluginsLoader(): void {
     this.api = new ProtoAPI(() => {
       for (const Plugin of builinPlugins) {
-        this.pluginsLoader.applyPluginClass(Plugin);
+        this.pluginsLoader.applyPluginClass(new Plugin(this.api));
       }
     });
 
     this.pluginsLoader = new PluginsLoader(this.api);
+    this.api.pluginsLoader = this.pluginsLoader.api;
   }
 }

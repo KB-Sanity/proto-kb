@@ -1,12 +1,12 @@
 <svelte:options immutable />
 
 <script lang="ts">
-  import type { ProtoKBApplication } from '../entities/ProtoKBApplication';
+  import type { ProtoKBApplication } from '../../core/ProtoKBApplication';
   import { LayoutEditor } from './LayoutEditor';
-  import Toolbar from '../components/Toolbar/index.svelte';
+  import Toolbar from '../Toolbar/index.svelte';
   import { SettingsIcon } from 'svelte-feather-icons';
   import { openModal } from 'svelte-modals';
-  import ModalSettings from '../components/ModalSettings/index.svelte';
+  import ModalSettings from '../ModalSettings/index.svelte';
 
   let pixiContainer: HTMLDivElement;
 

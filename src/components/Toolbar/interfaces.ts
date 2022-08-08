@@ -1,4 +1,4 @@
-import type { ProtoPlugin } from 'src/ProtoPlugin';
+import type { ProtoPlugin } from 'src/core/ProtoPlugin';
 import type * as FeatherIcons from 'svelte-feather-icons';
 
 export type ToolbarButtonIcon<IconName extends string> = IconName extends `${infer Name}Icon` ? Name : null;
@@ -7,7 +7,7 @@ export interface ToolbarButtonOptions {
   name: string;
   icon: ToolbarButtonIcon<keyof typeof FeatherIcons>;
   size?: number;
-  onClick?: () => void;
+  onClick?: () => any;
 }
 
 export interface ToolbarButton {

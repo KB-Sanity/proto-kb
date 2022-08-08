@@ -4,10 +4,10 @@
 
   import type { AppSettings } from './interfaces';
   import Sidebar from './components/Sidebar/index.svelte';
-  import LayoutEditor from './editor/LayoutEditor.svelte';
-  import { ProtoKBApplication } from './entities/ProtoKBApplication';
+  import LayoutEditor from './components/LayoutEditor/index.svelte';
+  import { ProtoKBApplication } from './core/ProtoKBApplication';
   import { rootState } from './store';
-  import { Events } from './entities/Events';
+  import { Events } from './core/Events';
 
   let layoutEditor: LayoutEditor;
   let app: ProtoKBApplication;
@@ -62,6 +62,7 @@
   .layout-editor {
     display: flex;
     flex: 1;
+    overflow: hidden;
   }
 
   .backdrop {
