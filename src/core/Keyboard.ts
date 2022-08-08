@@ -93,7 +93,7 @@ export class Keyboard {
   private _addKeyCap = (params: AddKeyCapParams = {}): KeyCapAPI => {
     let newPosition: Point2D = params.position || { x: 0, y: 0 };
     if (this._keyCaps.length && !params.position) {
-      const lastKeycap = this._keyCaps[this._keyCaps.length - 1];
+      const lastKeycap = this._keyCaps[this._keyCaps.length - 1].api;
       const newX = lastKeycap.position.x >= 15 ? 0 : lastKeycap.position.x + lastKeycap.size.width;
       const newY = lastKeycap.position.x >= 15 ? lastKeycap.position.y + lastKeycap.size.height : lastKeycap.position.y;
       newPosition = { x: newX, y: newY };

@@ -18,6 +18,9 @@
     "baseUrl": ".",
     "allowJs": true,
     "checkJs": true,
+    "types": [
+      "vite/client"
+    ]
   },
-  "include": ["src/ProtoPlugin.ts"],
+  "include": ["src/core/ProtoPlugin.ts"],
 }
