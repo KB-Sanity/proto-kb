@@ -39,3 +39,7 @@ yarn dev
 ```
 
 **You are wonderful!**
+
+# Support and Warranty
+
+lmao
