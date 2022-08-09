@@ -1,11 +1,11 @@
 {
   "name": "@kb-sanity/proto-kb-types",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Types package for proto-kb",
   "repository": "https://github.com/KB-Sanity/proto-kb.git",
   "author": "i7d3v3l0p3r@yandex.ru",
   "license": "AGPL-3.0-or-later",
-  "types": "./ProtoPlugin.d.ts",
+  "types": "./index.d.ts",
   "dependencies": {
     "nanostores": "^0.5.12",
     "pixi.js": "^6.4.2",

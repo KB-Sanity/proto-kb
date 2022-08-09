@@ -22,5 +22,5 @@
       "vite/client"
     ]
   },
-  "include": ["src/core/ProtoPlugin.ts"],
+  "include": ["src/types.ts"],
 }
