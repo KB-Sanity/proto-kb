@@ -3,6 +3,7 @@ import type { ProtoAPI } from 'src/api';
 import type { ProtoPlugin } from './ProtoPlugin';
 import { HTTPClient } from './http';
 import { builinPlugins } from '../plugins';
+import { parsePluginUrl } from '../lib/pluginUrlParser';
 
 export interface Plugin<T extends ProtoPlugin = ProtoPlugin> {
   name: string;
@@ -74,10 +75,30 @@ export class PluginsLoader {
     return info;
   };
 
-  public async loadPlugin(pluginUrl: string): Promise<ProtoPlugin> {
+  private async _fetchPluginFromGithub(pluginUrl: string): Promise<[string, string]> {
     const urlData = GitUrlParse(pluginUrl);
-    const packageData = await HTTPClient.fetchPluginPackageFile(urlData.owner, urlData.name);
-    const sourceCode = await HTTPClient.fetchPluginSourceFile(urlData.owner, urlData.name, packageData.main);
+    const packageData = await HTTPClient.fetchGithubPluginPackageFile(urlData.owner, urlData.name);
+    return [
+      await HTTPClient.fetchGithubPluginSourceFile(urlData.owner, urlData.name, packageData.main),
+      packageData.name,
+    ];
+  }
+
+  private async _fetchDirectPluginFile(pluginUrl: string) {
+    return HTTPClient.fetchDirectPluginFile(pluginUrl);
+  }
+
+  public async loadPlugin(pluginUrl: string): Promise<ProtoPlugin> {
+    const parsedPlugin = parsePluginUrl(pluginUrl);
+
+    let sourceCode: string;
+    let packageName: string;
+    if (parsedPlugin.isGithub) {
+      [sourceCode, packageName] = await this._fetchPluginFromGithub(pluginUrl);
+    } else if (parsedPlugin.isDirectFile) {
+      sourceCode = await this._fetchDirectPluginFile(pluginUrl);
+      packageName = 'protokb-plugin';
+    }
     const context = {};
     const template = `
       let globalThis = window = this;
@@ -85,7 +106,7 @@ export class PluginsLoader {
     `;
 
     new Function(template).bind(context)();
-    const PluginClass: new (api: ProtoAPI) => ProtoPlugin = context[packageData.name];
+    const PluginClass: new (api: ProtoAPI) => ProtoPlugin = context[packageName];
     const instance = this.applyPluginClass(new PluginClass(this._protoApi), pluginUrl);
     return instance;
   }

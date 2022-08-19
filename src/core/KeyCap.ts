@@ -334,7 +334,7 @@ export class KeyCap {
     for (const [key, value] of Object.entries(this._legends) as [string, KeyCapLegend][]) {
       if (value?.text.length) {
         const text = new Text(value.text, {
-          fontSize: legendsSurfaceHeight / 3,
+          fontSize: ((this._unitSize - 1) * 0.8) / 3,
           fill: value.color,
         });
         let legendPosition: Point2D;

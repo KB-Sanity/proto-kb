@@ -3460,6 +3460,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"nanoevents@npm:^7.0.1":
+  version: 7.0.1
+  resolution: "nanoevents@npm:7.0.1"
+  checksum: 5c0704cfeb7af9052a70b1ce53e556e3743cefbbd09758121e0062e4fac2cf70ebea1e6b1414f18a81975ee1bdf4af05e13c82e1b015975493ef8ef34737787d
+  languageName: node
+  linkType: hard
+
 "nanoid@npm:^3.3.4":
   version: 3.3.4
   resolution: "nanoid@npm:3.3.4"
@@ -4011,6 +4018,7 @@ __metadata:
     eslint-plugin-prettier: ^4.0.0
     eslint-plugin-svelte3: ^4.0.0
     git-url-parse: ^12.0.0
+    nanoevents: ^7.0.1
     nanoid: ^4.0.0
     nanostores: ^0.5.12
     node-sass: ^7.0.1

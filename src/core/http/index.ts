@@ -7,15 +7,20 @@ export class HTTPClient {
     return res.json() as Promise<ApiPlugin[]>;
   }
 
-  static async fetchPluginPackageFile(owner: string, repo: string): Promise<Record<string, string>> {
+  static async fetchGithubPluginPackageFile(owner: string, repo: string): Promise<Record<string, string>> {
     const res = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/package.json`);
     const packageData = (await res.json()) as Record<string, string>;
     return JSON.parse(atob(packageData.content)) as Record<string, string>;
   }
 
-  static async fetchPluginSourceFile(owner: string, repo: string, path: string): Promise<string> {
+  static async fetchGithubPluginSourceFile(owner: string, repo: string, path: string): Promise<string> {
     const res = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}`);
     const sourceData = (await res.json()) as Record<string, string>;
     return atob(sourceData.content);
+  }
+
+  static async fetchDirectPluginFile(url: string): Promise<string> {
+    const res = await fetch(url);
+    return res.text();
   }
 }
