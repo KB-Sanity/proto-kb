@@ -1,6 +1,6 @@
 {
-  "name": "@kb-sanity/proto-kb-types",
-  "version": "0.2.0",
+  "name": "@kb-sanity/proto-kb-plugin",
+  "version": "1.0.0",
   "description": "Types package for proto-kb",
   "repository": "https://github.com/KB-Sanity/proto-kb.git",
   "author": "i7d3v3l0p3r@yandex.ru",

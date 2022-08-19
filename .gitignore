@@ -2,6 +2,7 @@
 /public/index.html
 dist
 types/**/*.d.ts
+types/**/*.js
 
 .DS_Store
 # Logs
