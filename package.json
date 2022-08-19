@@ -15,7 +15,7 @@
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "format": "prettier --write '{public,src}/**/*.{css,html,ts,js,svelte}'",
     "lint": "eslint --fix --quiet src --ext .ts,.js,.svelte",
-    "types": "rm -rf $(find ./types/ -name \"*\" ! -name \"package.json\" ! -name \"types\") && tsc --project tsconfig.types.json && mv types/types.d.ts types/index.d.ts"
+    "types": "rm -rf $(find ./types/ -name \"*\" ! -name \"package.json\" ! -name \"types\") && tsc --project tsconfig.types.json && mv types/types.d.ts types/index.d.ts && mv types/types.js types/index.js"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^1.0.0-next.49",
