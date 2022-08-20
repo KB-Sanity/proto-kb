@@ -47,8 +47,8 @@
     "nanoid": "^4.0.0",
     "nanostores": "^0.5.12",
     "pixi.js": "^6.4.2",
-    "svelte-modals": "^1.1.0",
-    "svelte-feather-icons": "^4.0.0"
+    "svelte-feather-icons": "^4.0.0",
+    "svelte-modals": "^1.1.0"
   },
   "packageManager": "yarn@3.2.1"
 }

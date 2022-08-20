@@ -3,7 +3,7 @@ import type { SidebarAPI } from '../components/Sidebar/interfaces';
 import type { LayoutEditorAPI } from '../components/LayoutEditor/interfaces';
 import type { EventsAPI } from '../core/Events';
 import type { UtilsAPI } from './utils';
-import utils from './utils';
+import { utilsAPI } from './utils';
 import type { PluginsLoaderAPI } from 'src/core/PluginsLoader';
 
 const apiList = ['layoutEditor', 'toolbar', 'sidebar', 'events', 'pluginsLoader'];
@@ -64,7 +64,7 @@ export class ProtoAPI {
     }
   }
 
-  public utils: UtilsAPI = utils;
+  public utils: UtilsAPI = utilsAPI;
 
   constructor(private _initializedCb: () => void) {}
 

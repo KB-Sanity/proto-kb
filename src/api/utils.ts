@@ -6,7 +6,7 @@ export interface UtilsAPI {
   fileToText: (file: File) => Promise<string | ArrayBuffer>;
 }
 
-export default <UtilsAPI>{
+export const utilsAPI: UtilsAPI = {
   get pickFile() {
     return pickFile;
   },

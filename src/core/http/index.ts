@@ -1,6 +1,6 @@
 import type { ApiPlugin } from './interfaces';
 
-export * from './interfaces';
+export type { ApiPlugin } from './interfaces';
 export class HTTPClient {
   static async getPlugins(): Promise<ApiPlugin[]> {
     const res = await fetch(`${import.meta.env.BASE_URL}plugins.json`);
