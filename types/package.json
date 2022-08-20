@@ -1,6 +1,6 @@
 {
   "name": "@kb-sanity/proto-kb-plugin",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Types package for proto-kb",
   "repository": "https://github.com/KB-Sanity/proto-kb.git",
   "author": "i7d3v3l0p3r@yandex.ru",
@@ -8,8 +8,13 @@
   "types": "./index.d.ts",
   "main": "./index.js",
   "dependencies": {
+    "colord": "^2.9.2",
+    "git-url-parse": "^12.0.0",
+    "nanoevents": "^7.0.1",
+    "nanoid": "^4.0.0",
     "nanostores": "^0.5.12",
     "pixi.js": "^6.4.2",
+    "svelte-modals": "^1.1.0",
     "svelte-feather-icons": "^4.0.0"
   },
   "files": [
